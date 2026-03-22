@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inner Work — The Meditative Horizon</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode:"class",
+  theme:{
+    extend:{
+      colors:{
+        "surface-container-high":"#e6e8e9","on-primary":"#e9ffe5","surface":"#f9f9f9",
+        "secondary":"#44627f","on-primary-container":"#3d583e","surface-dim":"#d7dbdb",
+        "on-secondary":"#f7f9ff","secondary-container":"#cfe5ff","secondary-fixed-dim":"#b9d7fa",
+        "background":"#f9f9f9","surface-container":"#eceeee","outline":"#777b7c",
+        "on-secondary-container":"#365471","tertiary":"#54634e","tertiary-container":"#edffe3",
+        "surface-container-low":"#f3f4f4","outline-variant":"#afb3b3",
+        "primary-fixed":"#cbebc8","primary-container":"#cbebc8","surface-bright":"#f9f9f9",
+        "on-tertiary-container":"#54634e","primary-dim":"#3f5a3f",
+        "primary":"#4a664a","surface-container-highest":"#e0e3e4",
+        "on-surface":"#2f3334","on-surface-variant":"#5b6061","surface-container-lowest":"#ffffff"
+      },
+      fontFamily:{"headline":["Manrope"],"body":["Manrope"],"label":["Manrope"]},
+      borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"1.5rem","full":"9999px"},
+    }
+  }
+}
+</script>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
+  body{font-family:'Manrope',sans-serif;background:#f9f9f9;color:#2f3334;-webkit-font-smoothing:antialiased;}
+  .hide-scrollbar::-webkit-scrollbar{display:none;}
+  .hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none;}
+  .page{display:none;}
+  .page.active{display:block;animation:fadeSlideUp .35s cubic-bezier(.4,0,.2,1);}
+  @keyframes fadeSlideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  textarea:focus{outline:none;box-shadow:0 0 0 3px rgba(74,102,74,.08);}
+
+  /* Toast */
+  #toast{
+    position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:#2f3334;color:#f9f9f9;padding:10px 22px;border-radius:9999px;
+    font-size:13px;font-weight:500;opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);
+    z-index:300;pointer-events:none;white-space:nowrap;
+  }
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  #toast.success{background:#4a664a;}
+  #toast.error{background:#a73b21;}
+  #toast.info{background:#44627f;}
+
+  /* Category pill colours */
+  .pill-health{background:#dff0d5;color:#3d5e38;}
+  .pill-mind{background:#cfe5ff;color:#2a4a6b;}
+  .pill-growth{background:#edffe3;color:#3c5538;}
+  .pill-default{background:#eceeee;color:#5b6061;}
+
+  /* Shimmer loading */
+  @keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+  .shimmer{background:linear-gradient(90deg,#eceeee 25%,#f3f4f4 50%,#eceeee 75%);
+    background-size:400px 100%;animation:shimmer 1.4s infinite;}
+  .shimmer-line{height:16px;border-radius:8px;margin-bottom:10px;}
+
+  /* Fact card glow on hover */
+  .spark-card{transition:box-shadow .3s;}
+  .spark-card:hover{box-shadow:0 24px 48px rgba(47,51,52,.07);}
+
+  /* Journaling canvas border focus */
+  #journal-canvas{border:1px solid transparent;transition:border-color .4s;}
+  #journal-canvas:focus-within{border-color:rgba(74,102,74,.18);}
+
+  /* Nav active */
+  .nav-btn{transition:all .3s cubic-bezier(.4,0,.2,1);}
+  .nav-btn.active{background:rgba(134,167,137,.2);color:#2f3334;}
+  .nav-btn:not(.active){color:rgba(47,51,52,.45);}
+
+  input[type="text"],input[type="password"]{
+    font-family:'Manrope',sans-serif;background:#fff;
+    border:1px solid rgba(175,179,179,.3);border-radius:12px;
+    padding:13px 15px;font-size:13px;color:#2f3334;width:100%;
+    transition:border-color .3s,box-shadow .3s;
+  }
+  input:focus{outline:none;border-color:rgba(74,102,74,.35);box-shadow:0 0 0 3px rgba(74,102,74,.07);}
+
+  /* Retro ring animation */
+  #retro-ring{transition:stroke-dashoffset .6s cubic-bezier(.4,0,.2,1);}
+
+  /* Logs entry */
+  .log-row{transition:background .2s;}
+  .log-row:hover{background:rgba(74,102,74,.03);border-radius:12px;}
+
+  /* Bilingual question */
+  .question-th{font-size:.85em;opacity:.65;font-style:italic;margin-top:6px;line-height:1.55;}
+</style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ──────────────────────── TOP BAR ──────────────────────── -->
+<header class="bg-[#f9f9f9]/75 backdrop-blur-3xl sticky top-0 z-50">
+  <div class="flex justify-between items-center w-full px-5 py-3.5 mx-auto max-w-2xl">
+    <div class="flex items-center gap-2.5">
+      <span class="material-symbols-outlined text-[#86A789] text-2xl">spa</span>
+      <h1 class="font-['Manrope'] tracking-tight font-semibold text-[17px] text-[#2f3334]" id="header-greeting">Inner Work</h1>
+    </div>
+    <button onclick="showPage('settings')" id="settings-btn" class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#86A789]/10 transition-colors duration-300">
+      <span class="material-symbols-outlined text-on-surface-variant text-[20px]">settings</span>
+    </button>
+  </div>
+</header>
+
+<div class="max-w-2xl mx-auto px-5 pb-32">
+
+<!-- ══════════════════════════ SPARK PAGE ══════════════════════════ -->
+<div id="page-spark" class="page active">
+  <!-- Hero -->
+  <section class="mt-9 mb-12">
+    <p class="text-[10px] font-semibold uppercase tracking-[.22em] text-on-surface-variant mb-3" id="hero-date">—</p>
+    <h2 class="text-[2.8rem] font-extrabold tracking-tighter text-on-surface leading-[1.08]">
+      Your space to<br/>
+      <span class="bg-gradient-to-r from-primary to-primary-dim bg-clip-text text-transparent">breathe and grow.</span>
+    </h2>
+  </section>
+
+  <div class="space-y-4">
+
+    <!-- ── TRIVIA CARD ── -->
+    <div id="trivia-card" class="spark-card bg-surface-container-low rounded-xl p-7 min-h-[300px] flex flex-col justify-between relative overflow-hidden">
+      <div class="absolute top-0 right-0 p-5 opacity-[.07] pointer-events-none">
+        <span class="material-symbols-outlined" style="font-size:7rem;">lightbulb</span>
+      </div>
+
+      <!-- Loading shimmer -->
+      <div id="trivia-shimmer">
+        <div class="shimmer shimmer-line w-20 mb-6"></div>
+        <div class="shimmer shimmer-line w-3/4" style="height:22px"></div>
+        <div class="shimmer shimmer-line w-full mt-3"></div>
+        <div class="shimmer shimmer-line w-5/6"></div>
+        <div class="shimmer shimmer-line w-2/3"></div>
+      </div>
+
+      <!-- Content -->
+      <div id="trivia-content" class="hidden flex-col h-full justify-between">
+        <div>
+          <div class="flex items-center gap-2 mb-5">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-lowest rounded-full text-[11px] font-bold text-primary">
+              <span class="material-symbols-outlined text-[14px]">auto_awesome</span>DAILY SPARK
+            </span>
+            <span id="trivia-category-pill" class="text-[10px] font-semibold px-2.5 py-1 rounded-full pill-default"></span>
+          </div>
+          <!-- Fact -->
+          <h3 id="trivia-fact" class="text-xl font-bold tracking-tight text-on-surface mb-3 leading-snug"></h3>
+          <!-- Did You Know -->
+          <p id="trivia-didyouknow" class="text-on-surface-variant text-[15px] leading-relaxed"></p>
+        </div>
+        <div class="mt-8 flex items-center gap-3">
+          <button onclick="loadTrivia()" class="flex items-center gap-1.5 bg-surface-container-lowest text-on-surface-variant text-[13px] font-medium px-4 py-2.5 rounded-full hover:bg-white transition-colors">
+            <span class="material-symbols-outlined text-[15px]">refresh</span>New spark
+          </button>
+          <span id="trivia-cat-label" class="text-[12px] text-outline italic"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── COACHING QUESTION CARD ── -->
+    <div id="question-card" class="spark-card bg-surface-container-lowest rounded-xl p-7 min-h-[280px] flex flex-col justify-between" style="border:1px solid rgba(175,179,179,.13)">
+
+      <!-- Loading shimmer -->
+      <div id="question-shimmer">
+        <div class="shimmer shimmer-line w-24 mb-6"></div>
+        <div class="shimmer shimmer-line w-full" style="height:22px"></div>
+        <div class="shimmer shimmer-line w-4/5 mt-2" style="height:18px"></div>
+        <div class="shimmer shimmer-line w-2/3 mt-4"></div>
+      </div>
+
+      <!-- Content -->
+      <div id="question-content" class="hidden flex-col justify-between h-full">
+        <div>
+          <div class="flex items-center gap-2 mb-5">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-tertiary-container rounded-full text-[11px] font-bold text-tertiary">
+              <span class="material-symbols-outlined text-[14px]">edit_note</span>COACHING QUESTION
+            </span>
+            <span id="question-category-pill" class="text-[10px] font-semibold px-2.5 py-1 rounded-full pill-default"></span>
+          </div>
+          <h3 id="question-en" class="text-xl font-bold tracking-tight text-on-surface leading-snug"></h3>
+          <p id="question-th" class="question-th text-on-surface-variant"></p>
+        </div>
+        <div class="mt-7">
+          <button onclick="showPage('journal')" class="w-full bg-surface-container-low rounded-2xl px-5 py-3.5 flex items-center justify-between hover:bg-primary/5 transition-colors group">
+            <span class="text-outline italic text-[13px]">Reflect on this…</span>
+            <span class="material-symbols-outlined text-primary text-[20px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── WEEKLY PROGRESS ── -->
+    <div class="bg-secondary-container/20 rounded-xl p-7 flex flex-col sm:flex-row items-center justify-between gap-5">
+      <div class="text-center sm:text-left space-y-1">
+        <h4 class="text-[15px] font-bold text-on-secondary-container">Weekly Reflections</h4>
+        <p class="text-on-surface-variant text-[13px] opacity-80 max-w-[190px]" id="progress-label">Keep showing up. Consistency is growth.</p>
+      </div>
+      <div class="flex gap-1.5 items-end" id="progress-bars">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+  </div>
+</div><!-- /page-spark -->
+
+
+<!-- ══════════════════════════ JOURNAL PAGE ══════════════════════════ -->
+<div id="page-journal" class="page">
+  <section class="mt-9 mb-8">
+    <p class="text-[10px] font-semibold uppercase tracking-[.22em] text-on-surface-variant mb-2">Current Focus</p>
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+      <h2 class="text-[2.3rem] font-extrabold tracking-tighter text-on-surface">The Silent Journal.</h2>
+      <div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full w-fit">
+        <span class="material-symbols-outlined text-primary" style="font-size:15px;">cloud_done</span>
+        <span class="text-[11px] font-medium text-on-surface-variant">Saves to Logs tab</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Writing Canvas -->
+  <div class="relative group">
+    <div class="absolute -inset-1 bg-gradient-to-tr from-primary/5 via-transparent to-secondary/5 rounded-[2rem] blur-2xl opacity-50 group-focus-within:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+    <div id="journal-canvas" class="relative bg-surface-container-lowest rounded-[1.5rem] p-6 sm:p-9 shadow-[0_20px_40px_rgba(47,51,52,.04)]">
+
+      <!-- Meta bar -->
+      <div class="mb-5 pb-4 flex flex-wrap items-start gap-y-2 gap-x-3" style="border-bottom:1px solid rgba(236,238,238,1)">
+        <div class="flex items-center gap-1.5 text-on-surface-variant/60">
+          <span class="material-symbols-outlined" style="font-size:13px;">calendar_today</span>
+          <span class="text-[12px] font-medium" id="journal-date">—</span>
+        </div>
+        <div style="width:1px;height:12px;background:rgba(175,179,179,.25);margin-top:2px;"></div>
+        <div class="flex items-center gap-1.5 text-on-surface-variant/60">
+          <span class="material-symbols-outlined" style="font-size:13px;">schedule</span>
+          <span class="text-[12px] font-medium" id="journal-time">—</span>
+        </div>
+        <!-- Active question as prompt -->
+        <div class="w-full mt-1 flex items-start gap-2 text-primary">
+          <span class="material-symbols-outlined" style="font-size:14px;margin-top:2px;">lightbulb</span>
+          <div>
+            <p class="text-[12px] font-bold leading-snug" id="journal-prompt-en">Load a question from the Spark page first.</p>
+            <p class="text-[11px] text-on-surface-variant/60 italic mt-0.5 leading-snug" id="journal-prompt-th"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Textarea -->
+      <textarea id="journal-textarea"
+        class="w-full min-h-[280px] bg-transparent border-none focus:ring-0 text-[19px] sm:text-xl leading-relaxed text-on-surface placeholder:text-outline/35 font-body resize-none hide-scrollbar"
+        placeholder="Start typing your thoughts here…"
+        oninput="updateWordCount()"></textarea>
+
+      <!-- Bottom toolbar -->
+      <div class="mt-5 pt-4 flex items-center justify-between" style="border-top:1px solid rgba(236,238,238,1)">
+        <div class="flex gap-1">
+          <button onclick="loadQuestionForJournal()" title="Load new question" class="h-8 px-3 rounded-full flex items-center gap-1 text-on-surface-variant hover:bg-surface-container-high transition-colors text-[11px] font-medium">
+            <span class="material-symbols-outlined" style="font-size:15px;">refresh</span>New prompt
+          </button>
+        </div>
+        <div class="text-[11px] font-label text-outline/60 uppercase tracking-widest" id="word-count">Words: 0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Save Button -->
+  <div class="mt-9 flex justify-center">
+    <button onclick="saveJournal()" id="save-btn"
+      class="group px-10 py-4 bg-gradient-to-r from-primary to-primary-dim text-on-primary rounded-full font-bold text-[15px] flex items-center gap-3 shadow-[0_10px_30px_rgba(74,102,74,.2)] hover:shadow-[0_15px_40px_rgba(74,102,74,.3)] hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50">
+      <span>Save to Logs</span>
+      <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+    </button>
+  </div>
+  <p class="mt-5 text-center text-on-surface-variant/35 text-[12px] font-label italic">"Your writing is safe. Your story matters."</p>
+</div><!-- /page-journal -->
+
+
+<!-- ══════════════════════════ RETRO PAGE ══════════════════════════ -->
+<div id="page-retro" class="page">
+  <section class="mt-9 mb-12">
+    <span class="text-primary font-semibold tracking-[.2em] uppercase text-[11px] mb-3 block">Reflective Practice</span>
+    <div class="flex flex-col sm:flex-row sm:items-end gap-6 sm:gap-14">
+      <div>
+        <h2 class="text-[3rem] font-bold tracking-tighter text-on-surface leading-[.95]">Quarterly<br/>Retro.</h2>
+      </div>
+      <p class="text-on-surface-variant text-[14px] leading-relaxed sm:flex-1">Turn your experiences into wisdom. Space to breathe, reflect, and set the horizon for the next three months.</p>
+    </div>
+  </section>
+
+  <div class="space-y-11">
+    <!-- Field 1 -->
+    <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
+      <div class="sm:col-span-4">
+        <label class="text-[16px] font-semibold tracking-tight text-on-surface block">What went well?</label>
+        <p class="text-[12px] text-outline mt-1 italic">Identify your strengths and victories.</p>
+      </div>
+      <div class="sm:col-span-8">
+        <div class="relative group">
+          <textarea id="retro-well" rows="4" oninput="updateRetroRing()"
+            class="w-full bg-surface-container-lowest rounded-xl p-6 text-[15px] border-none focus:ring-0 placeholder:text-outline/45 transition-all duration-300 hover:shadow-md resize-none"
+            placeholder="Celebrate the progress you've made…"
+            style="box-shadow:0 2px 8px rgba(47,51,52,.04)"></textarea>
+          <div class="absolute inset-0 rounded-xl pointer-events-none transition-all duration-500 group-focus-within:shadow-[0_0_0_2px_rgba(74,102,74,.15)]"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Field 2 -->
+    <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
+      <div class="sm:col-span-4">
+        <label class="text-[16px] font-semibold tracking-tight text-on-surface block">What didn't go well?</label>
+        <p class="text-[12px] text-outline mt-1 italic">Acknowledge friction with kindness.</p>
+      </div>
+      <div class="sm:col-span-8">
+        <div class="relative group">
+          <textarea id="retro-not" rows="4" oninput="updateRetroRing()"
+            class="w-full bg-surface-container-lowest rounded-xl p-6 text-[15px] border-none focus:ring-0 placeholder:text-outline/45 transition-all duration-300 hover:shadow-md resize-none"
+            placeholder="Note the obstacles and challenges…"
+            style="box-shadow:0 2px 8px rgba(47,51,52,.04)"></textarea>
+        </div>
+      </div>
+    </div>
+    <!-- Field 3 -->
+    <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
+      <div class="sm:col-span-4">
+        <label class="text-[16px] font-semibold tracking-tight text-on-surface block">What did I learn?</label>
+        <p class="text-[12px] text-outline mt-1 italic">The distillation of experience.</p>
+      </div>
+      <div class="sm:col-span-8">
+        <div class="relative group">
+          <textarea id="retro-learn" rows="5" oninput="updateRetroRing()"
+            class="w-full bg-surface-container-lowest rounded-xl p-6 text-[15px] border-none focus:ring-0 placeholder:text-outline/45 transition-all duration-300 hover:shadow-md resize-none"
+            placeholder="The core lesson to carry forward…"
+            style="box-shadow:0 2px 8px rgba(47,51,52,.04)"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Growth Ring -->
+  <div class="py-12 flex justify-center">
+    <div class="relative flex items-center justify-center">
+      <svg class="w-28 h-28" viewBox="0 0 112 112" style="transform:rotate(-90deg)">
+        <circle cx="56" cy="56" r="50" fill="transparent" stroke="#eceeee" stroke-width="3"/>
+        <circle id="retro-ring" cx="56" cy="56" r="50" fill="transparent"
+          stroke="#44627f" stroke-dasharray="314" stroke-dashoffset="314"
+          stroke-linecap="round" stroke-width="5"
+          style="filter:drop-shadow(0 0 8px rgba(185,215,250,.5))"/>
+      </svg>
+      <div class="absolute flex flex-col items-center">
+        <span class="text-[9px] font-bold text-secondary uppercase tracking-widest">Growth</span>
+        <span class="text-xl font-bold text-on-surface" id="retro-pct">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="flex justify-end pb-10">
+    <button onclick="saveRetro()"
+      class="group relative px-10 py-4 rounded-full overflow-hidden transition-all duration-500 active:scale-95 shadow-xl shadow-primary/10">
+      <div class="absolute inset-0 bg-gradient-to-r from-primary to-primary-dim"></div>
+      <div class="relative flex items-center gap-3">
+        <span class="text-on-primary font-bold tracking-wide">Seal the Reflection</span>
+        <span class="material-symbols-outlined text-on-primary transition-transform duration-500 group-hover:translate-x-1">auto_awesome</span>
+      </div>
+    </button>
+  </div>
+</div><!-- /page-retro -->
+
+
+<!-- ══════════════════════════ LOGS PAGE ══════════════════════════ -->
+<div id="page-logs" class="page">
+  <section class="mt-9 mb-8">
+    <p class="text-[10px] font-semibold uppercase tracking-[.22em] text-on-surface-variant mb-2">Archive</p>
+    <div class="flex items-end justify-between gap-3">
+      <h2 class="text-[2.3rem] font-extrabold tracking-tighter text-on-surface">My Logs.</h2>
+      <button onclick="loadLogs()" class="flex items-center gap-1.5 text-[11px] text-on-surface-variant bg-surface-container-low px-3 py-1.5 rounded-full hover:bg-surface-container transition-colors">
+        <span class="material-symbols-outlined" style="font-size:14px;">refresh</span>Refresh
+      </button>
+    </div>
+  </section>
+
+  <!-- Schema hint -->
+  <div class="flex items-center gap-2 mb-4 text-[11px] text-on-surface-variant/60">
+    <span class="material-symbols-outlined" style="font-size:13px;">info</span>
+    Columns: Timestamp · QuestionAsked · MyResponse
+  </div>
+
+  <div id="logs-container" class="bg-surface-container-lowest rounded-xl min-h-[200px] shadow-[0_20px_40px_rgba(47,51,52,.03)]" style="border:1px solid rgba(175,179,179,.1)">
+    <div id="logs-empty" class="flex flex-col items-center justify-center py-16 text-on-surface-variant/40 text-[13px] gap-2">
+      <span class="material-symbols-outlined text-[2.5rem] opacity-30">auto_stories</span>
+      <span>Your reflections will appear here.</span>
+    </div>
+    <div id="logs-list" class="hidden divide-y divide-surface-container-low/60 px-1"></div>
+  </div>
+</div><!-- /page-logs -->
+
+
+<!-- ══════════════════════════ SETTINGS PAGE ══════════════════════════ -->
+<div id="page-settings" class="page">
+  <section class="mt-9 mb-8">
+    <p class="text-[10px] font-semibold uppercase tracking-[.22em] text-on-surface-variant mb-2">Configuration</p>
+    <h2 class="text-[2.3rem] font-extrabold tracking-tighter text-on-surface">Settings.</h2>
+  </section>
+
+  <div class="space-y-4">
+
+    <!-- Read data -->
+    <div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_20px_40px_rgba(47,51,52,.03)]" style="border:1px solid rgba(175,179,179,.1)">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="material-symbols-outlined text-primary" style="font-size:18px;">table_chart</span>
+        <h3 class="font-bold text-[15px] text-on-surface">Data Source — CSV per Tab</h3>
+      </div>
+      <p class="text-[12px] text-on-surface-variant mb-5 ml-7">Each tab needs its own published CSV URL (File → Share → Publish to Web → select tab → CSV).</p>
+
+      <label class="text-[11px] uppercase tracking-widest text-on-surface-variant font-semibold block mb-1.5">Trivia tab CSV URL</label>
+      <input type="text" id="csv-trivia" placeholder="https://docs.google.com/spreadsheets/d/e/…/pub?gid=0&output=csv">
+
+      <label class="text-[11px] uppercase tracking-widest text-on-surface-variant font-semibold block mb-1.5 mt-4">CoachingQuestions tab CSV URL</label>
+      <input type="text" id="csv-coaching" placeholder="https://docs.google.com/spreadsheets/d/e/…/pub?gid=XXXXXX&output=csv">
+
+      <button onclick="saveCSVUrls()" class="mt-4 w-full py-3 bg-gradient-to-r from-primary to-primary-dim text-on-primary rounded-full font-bold text-[13px] hover:shadow-lg transition-all duration-300">
+        Save &amp; Load Data
+      </button>
+    </div>
+
+    <!-- Write-back -->
+    <div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_20px_40px_rgba(47,51,52,.03)]" style="border:1px solid rgba(175,179,179,.1)">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="material-symbols-outlined text-secondary" style="font-size:18px;">cloud_upload</span>
+        <h3 class="font-bold text-[15px] text-on-surface">Write-back — Apps Script URL</h3>
+      </div>
+      <p class="text-[12px] text-on-surface-variant mb-5 ml-7">Deploy the Apps Script below to enable saving to your Logs tab.</p>
+
+      <label class="text-[11px] uppercase tracking-widest text-on-surface-variant font-semibold block mb-1.5">Web App URL</label>
+      <input type="text" id="script-url-input" placeholder="https://script.google.com/macros/s/…/exec">
+
+      <label class="text-[11px] uppercase tracking-widest text-on-surface-variant font-semibold block mb-1.5 mt-4">Secret Key (optional)</label>
+      <input type="password" id="script-key-input" placeholder="Leave blank if not set">
+
+      <button onclick="saveScriptSettings()" class="mt-4 w-full py-3 rounded-full font-bold text-[13px] transition-all duration-300"
+        style="background:#cfe5ff;color:#365471;">
+        Save Script Settings
+      </button>
+    </div>
+
+    <!-- Schema info -->
+    <div class="bg-surface-container-low rounded-xl p-6">
+      <h3 class="font-bold text-[13px] text-on-surface mb-4 uppercase tracking-wider">Your Sheet Schema</h3>
+      <div class="space-y-3 text-[12px] text-on-surface-variant leading-relaxed">
+        <div class="flex gap-3">
+          <code class="bg-primary-container text-on-primary-container px-2 py-0.5 rounded font-bold text-[11px] whitespace-nowrap">Trivia</code>
+          <span>Columns: <strong>Fact</strong>, <strong>DidYouKnow</strong>, <strong>Category</strong></span>
+        </div>
+        <div class="flex gap-3">
+          <code class="bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded font-bold text-[11px] whitespace-nowrap">CoachingQuestions</code>
+          <span>Columns: <strong>Category</strong>, <strong>Question</strong>, <strong>QuestionTH</strong></span>
+        </div>
+        <div class="flex gap-3">
+          <code class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded font-bold text-[11px] whitespace-nowrap">Logs</code>
+          <span>Columns: <strong>Timestamp</strong>, <strong>QuestionAsked</strong>, <strong>MyResponse</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Apps Script -->
+    <div class="bg-surface-container-low rounded-xl p-6">
+      <h3 class="font-bold text-[13px] text-on-surface mb-2 uppercase tracking-wider">Apps Script Code</h3>
+      <p class="text-[11px] text-on-surface-variant mb-3">Click to select all → copy → paste into Extensions → Apps Script</p>
+      <textarea readonly onclick="this.select()" id="script-code-display"
+        class="w-full font-mono text-[11px] bg-surface-container p-4 rounded-lg text-on-surface-variant border-none focus:ring-0 resize-none" rows="20"></textarea>
+    </div>
+
+  </div>
+</div><!-- /page-settings -->
+
+</div><!-- /max-w-2xl -->
+
+<!-- FAB -->
+<button id="fab-btn" onclick="showPage('journal')"
+  class="fixed right-5 bottom-28 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary-dim text-on-primary flex items-center justify-center shadow-2xl z-40 hover:scale-105 active:scale-95 transition-transform duration-200">
+  <span class="material-symbols-outlined text-[22px]">edit</span>
+</button>
+
+<!-- BOTTOM NAV -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-3 pb-6 pt-3 bg-[#f9f9f9]/75 backdrop-blur-3xl z-50 rounded-t-[2rem] shadow-[0_-8px_32px_rgba(47,51,52,.05)]">
+  <button onclick="showPage('spark')"   id="nav-spark"   class="nav-btn active   flex flex-col items-center px-4 py-2 rounded-2xl gap-0.5">
+    <span class="material-symbols-outlined text-[22px]" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">auto_awesome</span>
+    <span class="text-[10px] font-semibold tracking-wide uppercase">Spark</span>
+  </button>
+  <button onclick="showPage('journal')" id="nav-journal" class="nav-btn flex flex-col items-center px-4 py-2 rounded-2xl gap-0.5">
+    <span class="material-symbols-outlined text-[22px]">edit_note</span>
+    <span class="text-[10px] font-semibold tracking-wide uppercase">Journal</span>
+  </button>
+  <button onclick="showPage('retro')"   id="nav-retro"   class="nav-btn flex flex-col items-center px-4 py-2 rounded-2xl gap-0.5">
+    <span class="material-symbols-outlined text-[22px]">history_edu</span>
+    <span class="text-[10px] font-semibold tracking-wide uppercase">Retro</span>
+  </button>
+  <button onclick="showPage('logs')"    id="nav-logs"    class="nav-btn flex flex-col items-center px-4 py-2 rounded-2xl gap-0.5">
+    <span class="material-symbols-outlined text-[22px]">folder_open</span>
+    <span class="text-[10px] font-semibold tracking-wide uppercase">Logs</span>
+  </button>
+</nav>
+
+<!-- ══════════════════════════ JAVASCRIPT ══════════════════════════ -->
+<script>
+// ── STATE ──────────────────────────────────────────────────────────
+const state = {
+  triviaRows: [],       // [{Fact, DidYouKnow, Category}]
+  questionRows: [],     // [{Category, Question, QuestionTH}]
+  currentQuestion: null // active question object for journaling
+};
+
+// ── CONFIG ─────────────────────────────────────────────────────────
+function cfg() {
+  return {
+    csvTrivia:   localStorage.getItem('iw_csv_trivia')   || '',
+    csvCoaching: localStorage.getItem('iw_csv_coaching') || '',
+    scriptUrl:   localStorage.getItem('iw_url')          || '',
+    scriptKey:   localStorage.getItem('iw_key')          || ''
+  };
+}
+
+// ── TOAST ──────────────────────────────────────────────────────────
+function toast(msg, type='') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show' + (type ? ' '+type : '');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.className = ''; }, 3200);
+}
+
+// ── DATETIME ───────────────────────────────────────────────────────
+function initDateTime() {
+  const now  = new Date();
+  const h    = now.getHours();
+  const greet = h < 12 ? 'Good Morning' : h < 17 ? 'Good Afternoon' : 'Good Evening';
+  document.getElementById('header-greeting').textContent = greet;
+  document.getElementById('hero-date').textContent =
+    now.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+  document.getElementById('journal-date').textContent =
+    now.toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+
+  // live clock
+  function tick() {
+    document.getElementById('journal-time').textContent =
+      new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+  }
+  tick();
+  setInterval(tick, 30000);
+}
+
+// ── CSV FETCH (with CORS proxy fallback) ───────────────────────────
+async function fetchCSV(url) {
+  if (!url) return [];
+  const proxied = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+  const res = await fetch(proxied);
+  if (!res.ok) throw new Error('fetch failed');
+  return res.text();
+}
+
+function parseCSVText(text) {
+  // Robust CSV parser: handles quoted fields containing commas/newlines
+  const rows = [];
+  let row = [], field = '', inQuote = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i], next = text[i+1];
+    if (inQuote) {
+      if (ch === '"' && next === '"') { field += '"'; i++; }
+      else if (ch === '"') { inQuote = false; }
+      else { field += ch; }
+    } else {
+      if (ch === '"') { inQuote = true; }
+      else if (ch === ',') { row.push(field.trim()); field = ''; }
+      else if (ch === '\n' || (ch === '\r' && next === '\n')) {
+        if (ch === '\r') i++;
+        row.push(field.trim()); rows.push(row); row = []; field = '';
+      } else { field += ch; }
+    }
+  }
+  if (field || row.length) { row.push(field.trim()); rows.push(row); }
+  return rows.filter(r => r.some(c => c !== ''));
+}
+
+// ── LOAD TRIVIA ────────────────────────────────────────────────────
+async function loadAllTrivia() {
+  const c = cfg();
+  if (!c.csvTrivia) {
+    // Demo data
+    state.triviaRows = [
+      { Fact: 'The "Blue Zone" Mindset', DidYouKnow: 'Communities where people live longest don\'t exercise traditionally — they move naturally every 20 minutes through gardening and daily walks.', Category: 'Health' },
+      { Fact: 'Neuroplasticity & Habits', DidYouKnow: 'The brain rewires itself through every new habit. Consistency over 66 days creates lasting neural pathways that make change effortless.', Category: 'Mind' },
+      { Fact: 'Gratitude & Dopamine', DidYouKnow: 'Gratitude activates the prefrontal cortex, reducing anxiety and boosting dopamine — your brain\'s natural reward chemical.', Category: 'Growth' },
+    ];
+    loadTrivia();
+    return;
+  }
+  try {
+    const raw = await fetchCSV(c.csvTrivia);
+    const rows = parseCSVText(raw);
+    if (rows.length < 2) throw new Error('no data');
+    const header = rows[0].map(h => h.trim());
+    // Map: Fact, DidYouKnow, Category
+    const iF = header.findIndex(h => /fact/i.test(h));
+    const iD = header.findIndex(h => /didyouknow|did you know/i.test(h));
+    const iC = header.findIndex(h => /category/i.test(h));
+    state.triviaRows = rows.slice(1)
+      .map(r => ({
+        Fact:       (r[iF]  || r[0] || '').trim(),
+        DidYouKnow: (r[iD]  || r[1] || '').trim(),
+        Category:   (r[iC]  || r[2] || '').trim()
+      }))
+      .filter(r => r.Fact);
+    loadTrivia();
+  } catch(e) {
+    console.warn('Trivia CSV error:', e);
+    // show placeholder
+    showContent('trivia', false);
+    document.getElementById('trivia-fact').textContent = 'Could not load Trivia data.';
+    document.getElementById('trivia-didyouknow').textContent = 'Check your CSV URL in Settings.';
+    showContent('trivia', true);
+  }
+}
+
+async function loadAllQuestions() {
+  const c = cfg();
+  if (!c.csvCoaching) {
+    state.questionRows = [
+      { Category: 'Growth', Question: 'What is one small thing you can simplify today?',        QuestionTH: 'มีสิ่งเล็กๆ อะไรที่คุณทำให้เรียบง่ายขึ้นได้ในวันนี้?' },
+      { Category: 'Mind',   Question: 'Where are you seeking permission you can give yourself?', QuestionTH: 'คุณกำลังมองหาการอนุญาตที่คุณสามารถให้ตัวเองได้ที่ไหน?' },
+      { Category: 'Growth', Question: 'What would you do today if you knew it was enough?',      QuestionTH: 'คุณจะทำอะไรในวันนี้ถ้าคุณรู้ว่ามันเพียงพอแล้ว?' },
+    ];
+    loadQuestion();
+    return;
+  }
+  try {
+    const raw = await fetchCSV(c.csvCoaching);
+    const rows = parseCSVText(raw);
+    if (rows.length < 2) throw new Error('no data');
+    const header = rows[0].map(h => h.trim());
+    const iCat = header.findIndex(h => /category/i.test(h));
+    const iQ   = header.findIndex(h => /^question$/i.test(h));
+    const iTH  = header.findIndex(h => /questionth|question.*th/i.test(h));
+    state.questionRows = rows.slice(1)
+      .map(r => ({
+        Category:   (r[iCat] || r[0] || '').trim(),
+        Question:   (r[iQ]   || r[1] || '').trim(),
+        QuestionTH: (r[iTH]  || r[2] || '').trim()
+      }))
+      .filter(r => r.Question);
+    loadQuestion();
+  } catch(e) {
+    console.warn('Coaching CSV error:', e);
+    showContent('question', false);
+    document.getElementById('question-en').textContent = 'Could not load questions.';
+    document.getElementById('question-th').textContent = 'Check your CSV URL in Settings.';
+    showContent('question', true);
+  }
+}
+
+// ── SHOW HELPERS ───────────────────────────────────────────────────
+function showContent(type, visible) {
+  const shimmer  = document.getElementById(type + '-shimmer');
+  const content  = document.getElementById(type + '-content');
+  shimmer.classList.toggle('hidden', visible);
+  content.classList.toggle('hidden', !visible);
+  if (visible) content.classList.add('flex');
+}
+
+function pillClass(category) {
+  const c = (category||'').toLowerCase();
+  if (/health|wellness/i.test(c)) return 'pill-health';
+  if (/mind|mental|focus/i.test(c)) return 'pill-mind';
+  if (/growth|learn|develop/i.test(c)) return 'pill-growth';
+  return 'pill-default';
+}
+
+// ── LOAD TRIVIA (pick random row) ──────────────────────────────────
+function loadTrivia() {
+  if (!state.triviaRows.length) return;
+  const row = state.triviaRows[Math.floor(Math.random() * state.triviaRows.length)];
+  document.getElementById('trivia-fact').textContent       = row.Fact;
+  document.getElementById('trivia-didyouknow').textContent = row.DidYouKnow;
+  // Category pill
+  const pill = document.getElementById('trivia-category-pill');
+  pill.textContent  = row.Category || '';
+  pill.className    = 'text-[10px] font-semibold px-2.5 py-1 rounded-full ' + pillClass(row.Category);
+  pill.style.display = row.Category ? '' : 'none';
+  document.getElementById('trivia-cat-label').textContent = row.Category ? row.Category : '';
+  showContent('trivia', true);
+}
+
+// ── LOAD QUESTION (pick random row) ───────────────────────────────
+function loadQuestion() {
+  if (!state.questionRows.length) return;
+  const row = state.questionRows[Math.floor(Math.random() * state.questionRows.length)];
+  state.currentQuestion = row;
+  document.getElementById('question-en').textContent = row.Question;
+  document.getElementById('question-th').textContent = row.QuestionTH || '';
+  document.getElementById('question-th').style.display = row.QuestionTH ? '' : 'none';
+
+  const pill = document.getElementById('question-category-pill');
+  pill.textContent = row.Category || '';
+  pill.className   = 'text-[10px] font-semibold px-2.5 py-1 rounded-full ' + pillClass(row.Category);
+  pill.style.display = row.Category ? '' : 'none';
+
+  // sync to journal prompt
+  syncPromptToJournal(row);
+  showContent('question', true);
+}
+
+function syncPromptToJournal(row) {
+  document.getElementById('journal-prompt-en').textContent = row.Question || 'No question loaded yet.';
+  const thEl = document.getElementById('journal-prompt-th');
+  thEl.textContent  = row.QuestionTH || '';
+  thEl.style.display = row.QuestionTH ? '' : 'none';
+}
+
+function loadQuestionForJournal() {
+  if (!state.questionRows.length) { toast('Load a CSV in Settings first.', 'info'); return; }
+  loadQuestion();
+  toast('New prompt loaded.', 'info');
+}
+
+// ── WORD COUNT ─────────────────────────────────────────────────────
+function updateWordCount() {
+  const t = document.getElementById('journal-textarea').value.trim();
+  const w = t ? t.split(/\s+/).length : 0;
+  document.getElementById('word-count').textContent = 'Words: ' + w;
+}
+
+// ── RETRO RING ─────────────────────────────────────────────────────
+function updateRetroRing() {
+  const ids   = ['retro-well','retro-not','retro-learn'];
+  const chars = ids.reduce((s, id) => s + document.getElementById(id).value.trim().length, 0);
+  const maxChars = 600; // ~200 per field
+  const pct  = Math.min(100, Math.round((chars / maxChars) * 100));
+  const circ = 314;
+  document.getElementById('retro-ring').style.strokeDashoffset = circ - (pct / 100) * circ;
+  document.getElementById('retro-pct').textContent = pct + '%';
+}
+
+// ── PROGRESS BARS ─────────────────────────────────────────────────
+function renderProgressBars() {
+  const key   = 'iw_week_' + getWeekKey();
+  const count = parseInt(localStorage.getItem(key) || '0');
+  const heights = [32,40,28,48,36,28,24];
+  const bars  = document.getElementById('progress-bars');
+  bars.innerHTML = '';
+  for (let i = 0; i < 7; i++) {
+    const d   = document.createElement('div');
+    const h   = heights[i];
+    const active = i < count;
+    d.className = 'w-8 rounded-full transition-all duration-500 ' + (active ? 'bg-primary' : 'bg-surface-container-highest');
+    d.style.height = h + 'px';
+    d.style.opacity = active ? '1' : '0.35';
+    bars.appendChild(d);
+  }
+  document.getElementById('progress-label').textContent =
+    count > 0 ? `${count} reflection${count>1?'s':''} this week. Keep going!`
+               : 'Start your first entry today.';
+}
+
+function getWeekKey() {
+  const now = new Date();
+  const jan1 = new Date(now.getFullYear(), 0, 1);
+  const week = Math.ceil(((now - jan1) / 86400000 + jan1.getDay() + 1) / 7);
+  return now.getFullYear() + '-W' + week;
+}
+
+function bumpWeekCount() {
+  const key = 'iw_week_' + getWeekKey();
+  const n   = parseInt(localStorage.getItem(key) || '0') + 1;
+  localStorage.setItem(key, Math.min(n, 7));
+  renderProgressBars();
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────────
+const PAGES  = ['spark','journal','retro','logs','settings'];
+function showPage(name) {
+  PAGES.forEach(p => {
+    document.getElementById('page-' + p).classList.toggle('active', p === name);
+    const navBtn = document.getElementById('nav-' + p);
+    if (navBtn) {
+      navBtn.classList.toggle('active', p === name);
+      const icon = navBtn.querySelector('.material-symbols-outlined');
+      if (icon) icon.style.fontVariationSettings = p === name
+        ? "'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24"
+        : "'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24";
+    }
+  });
+  // FAB only on spark page
+  document.getElementById('fab-btn').style.display = name === 'spark' ? 'flex' : 'none';
+  if (name === 'logs')     loadLogs();
+  if (name === 'settings') fillSettingsUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── SAVE JOURNAL ──────────────────────────────────────────────────
+async function saveJournal() {
+  const text = document.getElementById('journal-textarea').value.trim();
+  if (!text) { toast('Write something first.', 'error'); return; }
+
+  const c = cfg();
+  if (!c.scriptUrl) { toast('Add your Apps Script URL in Settings.', 'error'); return; }
+
+  const question = state.currentQuestion ? state.currentQuestion.Question : '';
+  const payload  = {
+    action:    'addLog',
+    key:       c.scriptKey,
+    timestamp: new Date().toISOString(),
+    question:  question,
+    response:  text
+  };
+
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true;
+  toast('Saving…');
+  try {
+    const res = await fetch(c.scriptUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data.success) {
+      toast('Saved to Logs tab ✓', 'success');
+      document.getElementById('journal-textarea').value = '';
+      document.getElementById('word-count').textContent = 'Words: 0';
+      bumpWeekCount();
+    } else {
+      throw new Error(data.error || 'unknown');
+    }
+  } catch(e) {
+    toast('Save failed — check your Script URL.', 'error');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ── SAVE RETRO ────────────────────────────────────────────────────
+async function saveRetro() {
+  const w = document.getElementById('retro-well').value.trim();
+  const n = document.getElementById('retro-not').value.trim();
+  const l = document.getElementById('retro-learn').value.trim();
+  if (!w && !n && !l) { toast('Fill in at least one field.', 'error'); return; }
+
+  const c = cfg();
+  if (!c.scriptUrl) { toast('Add your Apps Script URL in Settings.', 'error'); return; }
+
+  const combined = [
+    w ? 'WENT WELL:\n' + w : '',
+    n ? "DIDN'T GO WELL:\n" + n : '',
+    l ? 'LEARNED:\n' + l : ''
+  ].filter(Boolean).join('\n\n');
+
+  toast('Sealing your reflection…');
+  try {
+    const res = await fetch(c.scriptUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'addLog', key: c.scriptKey,
+        timestamp: new Date().toISOString(),
+        question: 'Quarterly Retro',
+        response: combined
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      toast('Retro sealed ✓ Great reflection!', 'success');
+      ['retro-well','retro-not','retro-learn'].forEach(id => { document.getElementById(id).value = ''; });
+      updateRetroRing();
+      bumpWeekCount();
+    } else throw new Error(data.error);
+  } catch(e) {
+    toast('Save failed — check your Script URL.', 'error');
+  }
+}
+
+// ── LOAD LOGS ────────────────────────────────────────────────────
+async function loadLogs() {
+  const c = cfg();
+  const listEl  = document.getElementById('logs-list');
+  const emptyEl = document.getElementById('logs-empty');
+  if (!c.scriptUrl) {
+    emptyEl.innerHTML = '<span class="material-symbols-outlined text-[2.5rem] opacity-30">settings</span><span>Add your Apps Script URL in Settings to view logs.</span>';
+    emptyEl.classList.remove('hidden');
+    listEl.classList.add('hidden');
+    return;
+  }
+
+  emptyEl.innerHTML = '<span class="material-symbols-outlined text-[2rem] opacity-30 animate-spin">autorenew</span><span>Loading…</span>';
+  emptyEl.classList.remove('hidden');
+  listEl.classList.add('hidden');
+
+  try {
+    const qs  = new URLSearchParams({ action: 'getLogs', key: c.scriptKey });
+    const res = await fetch(c.scriptUrl + '?' + qs);
+    const data = await res.json();
+    const rows = (data.rows || []).filter(r => r.response);
+    if (!rows.length) {
+      emptyEl.innerHTML = '<span class="material-symbols-outlined text-[2.5rem] opacity-25">auto_stories</span><span>No entries yet. Start writing!</span>';
+      return;
+    }
+    emptyEl.classList.add('hidden');
+    listEl.classList.remove('hidden');
+    listEl.innerHTML = [...rows].reverse().map(r => {
+      const dt = r.timestamp ? new Date(r.timestamp).toLocaleDateString('en-US',
+        { month:'short', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '';
+      const safeQ = esc(r.question || '');
+      const safeR = esc(r.response || '');
+      const isRetro = (r.question || '').includes('Retro');
+      return `<div class="log-row px-5 py-5">
+        <div class="flex items-center gap-2 mb-2 flex-wrap">
+          <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${isRetro ? 'bg-tertiary-container text-on-tertiary-container' : 'bg-primary-container text-on-primary-container'}">
+            <span class="material-symbols-outlined" style="font-size:11px;">${isRetro ? 'history_edu' : 'edit_note'}</span>
+            ${isRetro ? 'Retro' : 'Journal'}
+          </span>
+          <span class="text-[11px] text-on-surface-variant/50">${dt}</span>
+        </div>
+        ${safeQ && !isRetro ? `<p class="text-[12px] font-semibold text-primary mb-1.5 italic leading-snug">${safeQ}</p>` : ''}
+        <p class="text-[13px] text-on-surface-variant leading-relaxed line-clamp-4">${safeR}</p>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    emptyEl.innerHTML = '<span class="material-symbols-outlined text-[2rem] opacity-30">error</span><span>Could not load. Check Script URL in Settings.</span>';
+    emptyEl.classList.remove('hidden');
+  }
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+// ── SETTINGS ─────────────────────────────────────────────────────
+function fillSettingsUI() {
+  const c = cfg();
+  document.getElementById('csv-trivia').value       = c.csvTrivia;
+  document.getElementById('csv-coaching').value     = c.csvCoaching;
+  document.getElementById('script-url-input').value = c.scriptUrl;
+  document.getElementById('script-key-input').value = c.scriptKey;
+}
+
+function saveCSVUrls() {
+  const t = document.getElementById('csv-trivia').value.trim();
+  const q = document.getElementById('csv-coaching').value.trim();
+  if (!t && !q) { toast('Paste at least one CSV URL.', 'error'); return; }
+  if (t) localStorage.setItem('iw_csv_trivia', t);
+  if (q) localStorage.setItem('iw_csv_coaching', q);
+  toast('Saved. Loading data…', 'success');
+  loadAllTrivia();
+  loadAllQuestions();
+}
+
+function saveScriptSettings() {
+  const url = document.getElementById('script-url-input').value.trim();
+  const key = document.getElementById('script-key-input').value.trim();
+  if (!url) { toast('Paste your Script URL.', 'error'); return; }
+  localStorage.setItem('iw_url', url);
+  localStorage.setItem('iw_key', key);
+  toast('Script settings saved ✓', 'success');
+}
+
+// ── APPS SCRIPT CODE ─────────────────────────────────────────────
+document.getElementById('script-code-display').value = `// ─── Inner Work — Google Apps Script ───────────────────────────
+// Deploy as Web App: Execute as Me, Access: Anyone
+// Logs tab columns: Timestamp | QuestionAsked | MyResponse
+
+const SECRET_KEY = ""; // optional — set a shared secret
+
+function doGet(e) {
+  const p = e.parameter;
+  if (SECRET_KEY && p.key !== SECRET_KEY) return j({error:"Unauthorized"});
+  if (p.action === "getLogs") return j(getLogs());
+  return j({error:"Unknown action"});
+}
+
+function doPost(e) {
+  const b = JSON.parse(e.postData.contents);
+  if (SECRET_KEY && b.key !== SECRET_KEY) return j({error:"Unauthorized"});
+  if (b.action === "addLog") return j(addLog(b.timestamp, b.question, b.response));
+  return j({error:"Unknown action"});
+}
+
+function j(data) {
+  return ContentService
+    .createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// Append one row to Logs tab: Timestamp, QuestionAsked, MyResponse
+function addLog(timestamp, question, response) {
+  const ss    = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName("Logs");
+  // Write header if sheet is empty
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(["Timestamp", "QuestionAsked", "MyResponse"]);
+  }
+  sheet.appendRow([timestamp || new Date().toISOString(), question || "", response || ""]);
+  return { success: true };
+}
+
+// Return all rows from Logs tab as array of objects
+function getLogs() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Logs");
+  const rows  = sheet.getDataRange().getValues();
+  if (rows.length < 2) return { rows: [] };
+  const header = rows[0]; // ["Timestamp","QuestionAsked","MyResponse"]
+  const data   = rows.slice(1).map(r => ({
+    timestamp: r[0] ? new Date(r[0]).toISOString() : "",
+    question:  r[1] || "",
+    response:  r[2] || ""
+  }));
+  return { rows: data };
+}`;
+
+// ── INIT ──────────────────────────────────────────────────────────
+initDateTime();
+renderProgressBars();
+loadAllTrivia();
+loadAllQuestions();
+</script>
+</body>
+</html>
