@@ -3,112 +3,208 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Inner Work — The Meditative Horizon</title>
+<title>The Inner Ascent</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
 tailwind.config = {
   darkMode:"class",
-  theme:{
-    extend:{
-      colors:{
-        "surface-container-high":"#e6e8e9","on-primary":"#e9ffe5","surface":"#f9f9f9",
-        "secondary":"#44627f","on-primary-container":"#3d583e","surface-dim":"#d7dbdb",
-        "on-secondary":"#f7f9ff","secondary-container":"#cfe5ff","secondary-fixed-dim":"#b9d7fa",
-        "background":"#f9f9f9","surface-container":"#eceeee","outline":"#777b7c",
-        "on-secondary-container":"#365471","tertiary":"#54634e","tertiary-container":"#edffe3",
-        "surface-container-low":"#f3f4f4","outline-variant":"#afb3b3",
-        "primary-fixed":"#cbebc8","primary-container":"#cbebc8","surface-bright":"#f9f9f9",
-        "on-tertiary-container":"#54634e","primary-dim":"#3f5a3f",
-        "primary":"#4a664a","surface-container-highest":"#e0e3e4",
-        "on-surface":"#2f3334","on-surface-variant":"#5b6061","surface-container-lowest":"#ffffff"
-      },
-      fontFamily:{"headline":["Manrope"],"body":["Manrope"],"label":["Manrope"]},
-      borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"1.5rem","full":"9999px"},
-    }
-  }
+  theme:{extend:{
+    colors:{
+      "surface-container-high":"#e6e8e9","on-primary":"#e9ffe5","surface":"#f9f9f9",
+      "secondary":"#44627f","on-primary-container":"#3d583e","surface-dim":"#d7dbdb",
+      "on-secondary":"#f7f9ff","secondary-container":"#cfe5ff","secondary-fixed-dim":"#b9d7fa",
+      "background":"#f9f9f9","surface-container":"#eceeee","outline":"#777b7c",
+      "on-secondary-container":"#365471","tertiary":"#54634e","tertiary-container":"#edffe3",
+      "surface-container-low":"#f3f4f4","outline-variant":"#afb3b3",
+      "primary-fixed":"#cbebc8","primary-container":"#cbebc8","surface-bright":"#f9f9f9",
+      "on-tertiary-container":"#54634e","primary-dim":"#3f5a3f",
+      "primary":"#4a664a","surface-container-highest":"#e0e3e4",
+      "on-surface":"#2f3334","on-surface-variant":"#5b6061","surface-container-lowest":"#ffffff"
+    },
+    fontFamily:{"headline":["Manrope"],"body":["Manrope"],"label":["Manrope"]},
+    borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"1.5rem","full":"9999px"},
+  }}
 }
 </script>
 <style>
-  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
-  body{font-family:'Manrope',sans-serif;background:#f9f9f9;color:#2f3334;-webkit-font-smoothing:antialiased;}
-  .hide-scrollbar::-webkit-scrollbar{display:none;}
-  .hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none;}
-  .page{display:none;}
-  .page.active{display:block;animation:fadeSlideUp .35s cubic-bezier(.4,0,.2,1);}
-  @keyframes fadeSlideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-  textarea:focus{outline:none;box-shadow:0 0 0 3px rgba(74,102,74,.08);}
+/* ── BASE ─────────────────────────────────────────────────────── */
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
+body{font-family:'Manrope',sans-serif;background:#f9f9f9;color:#2f3334;-webkit-font-smoothing:antialiased;}
+.hide-scrollbar::-webkit-scrollbar{display:none;}
+.hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none;}
 
-  /* Toast */
-  #toast{
-    position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);
-    background:#2f3334;color:#f9f9f9;padding:10px 22px;border-radius:9999px;
-    font-size:13px;font-weight:500;opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);
-    z-index:300;pointer-events:none;white-space:nowrap;
-  }
-  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-  #toast.success{background:#4a664a;}
-  #toast.error{background:#a73b21;}
-  #toast.info{background:#44627f;}
+/* ── PAGES ────────────────────────────────────────────────────── */
+.page{display:none;}
+.page.active{display:block;animation:fadeUp .38s cubic-bezier(.4,0,.2,1);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-  /* Category pill colours */
-  .pill-health{background:#dff0d5;color:#3d5e38;}
-  .pill-mind{background:#cfe5ff;color:#2a4a6b;}
-  .pill-growth{background:#edffe3;color:#3c5538;}
-  .pill-default{background:#eceeee;color:#5b6061;}
+/* ── TOAST ────────────────────────────────────────────────────── */
+#toast{
+  position:fixed;bottom:104px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:#2f3334;color:#f9f9f9;padding:11px 24px;border-radius:9999px;
+  font-size:13px;font-weight:600;opacity:0;transition:all .32s cubic-bezier(.4,0,.2,1);
+  z-index:400;pointer-events:none;white-space:nowrap;max-width:88vw;text-align:center;
+  box-shadow:0 8px 24px rgba(47,51,52,.18);}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.success{background:#4a664a;}
+#toast.error{background:#a73b21;}
+#toast.info{background:#44627f;}
 
-  /* Shimmer loading */
-  @keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
-  .shimmer{background:linear-gradient(90deg,#eceeee 25%,#f3f4f4 50%,#eceeee 75%);
-    background-size:400px 100%;animation:shimmer 1.4s infinite;}
-  .shimmer-line{height:16px;border-radius:8px;margin-bottom:10px;}
+/* ── CATEGORY PILLS ───────────────────────────────────────────── */
+/* Extended palette for richer data categories */
+.cat-health    {background:#dff0d5;color:#2d5230;}
+.cat-mind      {background:#dce8fb;color:#1e3d6b;}
+.cat-growth    {background:#e8f5e2;color:#2e5429;}
+.cat-finance   {background:#fef3c7;color:#92400e;}
+.cat-history   {background:#ede9fe;color:#4c1d95;}
+.cat-science   {background:#e0f2fe;color:#0c4a6e;}
+.cat-lifestyle {background:#fce7f3;color:#831843;}
+.cat-work      {background:#f0fdf4;color:#14532d;}
+.cat-default   {background:#eceeee;color:#5b6061;}
 
-  /* Fact card glow on hover */
-  .spark-card{transition:box-shadow .3s;}
-  .spark-card:hover{box-shadow:0 24px 48px rgba(47,51,52,.07);}
+/* ── THAI TEXT ────────────────────────────────────────────────── */
+.thai-text{
+  font-size:.9em;
+  font-weight:600;          /* bold as requested */
+  line-height:1.85;         /* generous line height for Thai glyphs */
+  color:#4a664a;
+  margin-top:8px;
+  letter-spacing:.01em;
+}
 
-  /* Journaling canvas border focus */
-  #journal-canvas{border:1px solid transparent;transition:border-color .4s;}
-  #journal-canvas:focus-within{border-color:rgba(74,102,74,.18);}
+/* ── SHIMMER ──────────────────────────────────────────────────── */
+@keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+.shimmer{background:linear-gradient(90deg,#eceeee 25%,#f3f4f4 50%,#eceeee 75%);
+  background-size:400px 100%;animation:shimmer 1.5s infinite;}
+.shimmer-line{height:13px;border-radius:8px;margin-bottom:10px;}
 
-  /* Nav active */
-  .nav-btn{transition:all .3s cubic-bezier(.4,0,.2,1);}
-  .nav-btn.active{background:rgba(134,167,137,.2);color:#2f3334;}
-  .nav-btn:not(.active){color:rgba(47,51,52,.45);}
+/* ── CARDS ────────────────────────────────────────────────────── */
+.spark-card{transition:box-shadow .3s;}
+.spark-card:hover{box-shadow:0 20px 48px rgba(47,51,52,.08);}
 
-  input[type="text"],input[type="password"]{
-    font-family:'Manrope',sans-serif;background:#fff;
-    border:1px solid rgba(175,179,179,.3);border-radius:12px;
-    padding:13px 15px;font-size:13px;color:#2f3334;width:100%;
-    transition:border-color .3s,box-shadow .3s;
-  }
-  input:focus{outline:none;border-color:rgba(74,102,74,.35);box-shadow:0 0 0 3px rgba(74,102,74,.07);}
+/* ── JOURNAL CANVAS ───────────────────────────────────────────── */
+#journal-canvas{border:1px solid transparent;transition:border-color .4s;}
+#journal-canvas:focus-within{border-color:rgba(74,102,74,.18);}
+textarea:focus{outline:none;box-shadow:0 0 0 3px rgba(74,102,74,.08);}
 
-  /* Retro ring animation */
-  #retro-ring{transition:stroke-dashoffset .6s cubic-bezier(.4,0,.2,1);}
+/* ── NAV ──────────────────────────────────────────────────────── */
+.nav-btn{transition:all .3s cubic-bezier(.4,0,.2,1);}
+.nav-btn.active{background:rgba(134,167,137,.2);color:#2f3334;}
+.nav-btn:not(.active){color:rgba(47,51,52,.45);}
 
-  /* Logs entry */
-  .log-row{transition:background .2s;}
-  .log-row:hover{background:rgba(74,102,74,.03);border-radius:12px;}
+/* ── INPUTS ───────────────────────────────────────────────────── */
+input[type="text"],input[type="password"]{
+  font-family:'Manrope',sans-serif;background:#fff;
+  border:1px solid rgba(175,179,179,.3);border-radius:12px;
+  padding:12px 14px;font-size:13px;color:#2f3334;width:100%;
+  transition:border-color .3s,box-shadow .3s;}
+input:focus{outline:none;border-color:rgba(74,102,74,.35);box-shadow:0 0 0 3px rgba(74,102,74,.07);}
 
-  /* Bilingual question */
-  .question-th{font-size:.85em;opacity:.65;font-style:italic;margin-top:6px;line-height:1.55;}
+/* ── RETRO RING ───────────────────────────────────────────────── */
+#retro-ring{transition:stroke-dashoffset .65s cubic-bezier(.4,0,.2,1);}
+
+/* ── LOG ROWS ─────────────────────────────────────────────────── */
+.log-row{transition:background .2s;border-radius:10px;}
+.log-row:hover{background:rgba(74,102,74,.04);}
+
+/* ── SAVE BUTTON — full width on mobile ─────────────────────────*/
+#save-btn{
+  width:100%;           /* full width mobile */
+  justify-content:center;
+}
+@media(min-width:640px){
+  #save-btn{width:auto;}  /* auto on desktop */
+}
+
+/* ── SAVE BUTTON — loading spinner ──────────────────────────────*/
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{
+  display:inline-block;width:16px;height:16px;
+  border:2.5px solid rgba(233,255,229,.35);
+  border-top-color:rgba(233,255,229,.95);
+  border-radius:50%;animation:spin .7s linear infinite;
+}
+
+/* ── SUCCESS OVERLAY ─────────────────────────────────────────── */
+#success-overlay{
+  position:fixed;inset:0;z-index:500;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(249,249,249,.92);backdrop-filter:blur(12px);
+  opacity:0;pointer-events:none;
+  transition:opacity .4s cubic-bezier(.4,0,.2,1);
+}
+#success-overlay.show{opacity:1;pointer-events:auto;}
+#success-overlay .success-card{
+  background:#fff;border-radius:24px;padding:40px 36px;
+  box-shadow:0 32px 64px rgba(47,51,52,.12);
+  text-align:center;max-width:320px;width:90%;
+  transform:scale(.92);transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+#success-overlay.show .success-card{transform:scale(1);}
+
+/* ── RETRO BANNER ─────────────────────────────────────────────── */
+#retro-banner{
+  background:linear-gradient(135deg,#f0fdf4 0%,#e8f5e2 100%);
+  border:1px solid rgba(74,102,74,.18);
+  border-radius:16px;padding:16px 20px;
+  display:none;  /* shown by JS */
+  align-items:center;gap:14px;margin-bottom:20px;
+  animation:fadeUp .5s cubic-bezier(.4,0,.2,1);
+}
+#retro-banner .banner-dot{
+  width:8px;height:8px;border-radius:50%;background:#4a664a;
+  animation:pulse 2s infinite;flex-shrink:0;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+
+/* ── MIRROR / RECENT LOGS ─────────────────────────────────────── */
+.mirror-entry{
+  padding:14px 0;
+  border-bottom:1px solid rgba(236,238,238,.9);
+  transition:opacity .3s;
+}
+.mirror-entry:last-child{border-bottom:none;}
+
+/* ── STEP GUIDE ───────────────────────────────────────────────── */
+.step-num{width:26px;height:26px;border-radius:50%;background:#4a664a;color:#e9ffe5;
+  font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-connector{width:2px;background:rgba(74,102,74,.15);margin:4px 0 4px 12px;height:16px;}
+code{background:#eceeee;color:#4a664a;padding:1px 6px;border-radius:4px;font-size:.85em;}
 </style>
 </head>
 <body class="bg-surface text-on-surface min-h-screen">
 
-<!-- TOAST -->
+<!-- ═══════ SUCCESS OVERLAY ═══════ -->
+<div id="success-overlay">
+  <div class="success-card">
+    <div style="font-size:2.8rem;margin-bottom:12px;">🌿</div>
+    <h3 style="font-size:1.2rem;font-weight:800;color:#2f3334;margin-bottom:8px;line-height:1.3"
+        id="success-title">Great job, Nuch!</h3>
+    <p style="font-size:13px;color:#5b6061;line-height:1.6" id="success-msg">Your thought is safe.</p>
+    <button onclick="closeSuccess()"
+      style="margin-top:24px;width:100%;padding:12px;background:linear-gradient(135deg,#4a664a,#3f5a3f);color:#e9ffe5;border:none;border-radius:9999px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;"
+      onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+      Continue the climb ↑
+    </button>
+  </div>
+</div>
+
 <div id="toast"></div>
 
-<!-- ──────────────────────── TOP BAR ──────────────────────── -->
-<header class="bg-[#f9f9f9]/75 backdrop-blur-3xl sticky top-0 z-50">
+<!-- ═══════ TOP BAR ═══════ -->
+<header class="bg-[#f9f9f9]/80 backdrop-blur-3xl sticky top-0 z-50" style="box-shadow:0 1px 0 rgba(47,51,52,.05)">
   <div class="flex justify-between items-center w-full px-5 py-3.5 mx-auto max-w-2xl">
     <div class="flex items-center gap-2.5">
       <span class="material-symbols-outlined text-[#86A789] text-2xl">spa</span>
-      <h1 class="font-['Manrope'] tracking-tight font-semibold text-[17px] text-[#2f3334]" id="header-greeting">Inner Work</h1>
+      <div>
+        <h1 class="font-['Manrope'] tracking-tight font-bold text-[16px] leading-tight" id="header-greeting">Inner Work</h1>
+        <p class="text-[10px] text-on-surface-variant/60 tracking-wide" id="header-sub">The Inner Ascent</p>
+      </div>
     </div>
-    <button onclick="showPage('settings')" id="settings-btn" class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#86A789]/10 transition-colors duration-300">
+    <button onclick="showPage('settings')" class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[#86A789]/10 transition-colors">
       <span class="material-symbols-outlined text-on-surface-variant text-[20px]">settings</span>
     </button>
   </div>
@@ -116,12 +212,29 @@ tailwind.config = {
 
 <div class="max-w-2xl mx-auto px-5 pb-32">
 
-<!-- ══════════════════════════ SPARK PAGE ══════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SPARK PAGE                                          -->
+<!-- ═══════════════════════════════════════════════════ -->
 <div id="page-spark" class="page active">
+
+  <!-- Retro Banner (shown in Q-end months) -->
+  <div id="retro-banner" class="flex">
+    <div class="banner-dot"></div>
+    <div class="flex-1">
+      <p style="font-size:13px;font-weight:700;color:#2f3334;margin-bottom:2px;">Quarterly Retro is due! 🏔</p>
+      <p style="font-size:12px;color:#5b6061;">Ready to review your climb? Reflect on this quarter before it closes.</p>
+    </div>
+    <button onclick="showPage('retro')"
+      style="flex-shrink:0;background:#4a664a;color:#e9ffe5;border:none;border-radius:9999px;padding:8px 16px;font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .2s;"
+      onmouseover="this.style.background='#3f5a3f'" onmouseout="this.style.background='#4a664a'">
+      Start →
+    </button>
+  </div>
+
   <!-- Hero -->
-  <section class="mt-9 mb-12">
+  <section class="mt-9 mb-11">
     <p class="text-[10px] font-semibold uppercase tracking-[.22em] text-on-surface-variant mb-3" id="hero-date">—</p>
-    <h2 class="text-[2.8rem] font-extrabold tracking-tighter text-on-surface leading-[1.08]">
+    <h2 class="text-[2.75rem] font-extrabold tracking-tighter leading-[1.08]">
       Your space to<br/>
       <span class="bg-gradient-to-r from-primary to-primary-dim bg-clip-text text-transparent">breathe and grow.</span>
     </h2>
@@ -130,83 +243,98 @@ tailwind.config = {
   <div class="space-y-4">
 
     <!-- ── TRIVIA CARD ── -->
-    <div id="trivia-card" class="spark-card bg-surface-container-low rounded-xl p-7 min-h-[300px] flex flex-col justify-between relative overflow-hidden">
-      <div class="absolute top-0 right-0 p-5 opacity-[.07] pointer-events-none">
+    <div class="spark-card bg-surface-container-low rounded-xl p-7 min-h-[280px] flex flex-col justify-between relative overflow-hidden">
+      <div class="absolute top-0 right-0 p-5 opacity-[.06] pointer-events-none">
         <span class="material-symbols-outlined" style="font-size:7rem;">lightbulb</span>
       </div>
-
-      <!-- Loading shimmer -->
+      <!-- shimmer -->
       <div id="trivia-shimmer">
         <div class="shimmer shimmer-line w-20 mb-6"></div>
-        <div class="shimmer shimmer-line w-3/4" style="height:22px"></div>
+        <div class="shimmer shimmer-line w-3/4" style="height:20px"></div>
         <div class="shimmer shimmer-line w-full mt-3"></div>
         <div class="shimmer shimmer-line w-5/6"></div>
-        <div class="shimmer shimmer-line w-2/3"></div>
       </div>
-
-      <!-- Content -->
+      <!-- content -->
       <div id="trivia-content" class="hidden flex-col h-full justify-between">
         <div>
-          <div class="flex items-center gap-2 mb-5">
+          <!-- type badge + category tag -->
+          <div class="flex items-center flex-wrap gap-2 mb-5">
             <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-lowest rounded-full text-[11px] font-bold text-primary">
               <span class="material-symbols-outlined text-[14px]">auto_awesome</span>DAILY SPARK
             </span>
-            <span id="trivia-category-pill" class="text-[10px] font-semibold px-2.5 py-1 rounded-full pill-default"></span>
+            <span id="trivia-cat-tag" class="text-[10px] font-bold px-2.5 py-1 rounded-full cat-default"></span>
           </div>
-          <!-- Fact -->
-          <h3 id="trivia-fact" class="text-xl font-bold tracking-tight text-on-surface mb-3 leading-snug"></h3>
-          <!-- Did You Know -->
-          <p id="trivia-didyouknow" class="text-on-surface-variant text-[15px] leading-relaxed"></p>
+          <h3 id="trivia-fact" class="text-[1.2rem] font-bold tracking-tight mb-3 leading-snug"></h3>
+          <p id="trivia-didyouknow" class="text-on-surface-variant text-[14.5px] leading-relaxed"></p>
         </div>
-        <div class="mt-8 flex items-center gap-3">
-          <button onclick="loadTrivia()" class="flex items-center gap-1.5 bg-surface-container-lowest text-on-surface-variant text-[13px] font-medium px-4 py-2.5 rounded-full hover:bg-white transition-colors">
+        <div class="mt-7 flex items-center justify-between">
+          <button onclick="loadTrivia()" class="flex items-center gap-1.5 bg-surface-container-lowest text-on-surface-variant text-[12px] font-semibold px-4 py-2.5 rounded-full hover:bg-white transition-colors">
             <span class="material-symbols-outlined text-[15px]">refresh</span>New spark
           </button>
-          <span id="trivia-cat-label" class="text-[12px] text-outline italic"></span>
+          <!-- bottom category label -->
+          <span id="trivia-cat-bottom" class="text-[11px] text-outline/70 italic"></span>
         </div>
       </div>
     </div>
 
     <!-- ── COACHING QUESTION CARD ── -->
-    <div id="question-card" class="spark-card bg-surface-container-lowest rounded-xl p-7 min-h-[280px] flex flex-col justify-between" style="border:1px solid rgba(175,179,179,.13)">
-
-      <!-- Loading shimmer -->
+    <div class="spark-card bg-surface-container-lowest rounded-xl p-7 min-h-[260px] flex flex-col justify-between" style="border:1px solid rgba(175,179,179,.13)">
+      <!-- shimmer -->
       <div id="question-shimmer">
-        <div class="shimmer shimmer-line w-24 mb-6"></div>
-        <div class="shimmer shimmer-line w-full" style="height:22px"></div>
-        <div class="shimmer shimmer-line w-4/5 mt-2" style="height:18px"></div>
+        <div class="shimmer shimmer-line w-28 mb-6"></div>
+        <div class="shimmer shimmer-line w-full" style="height:20px"></div>
+        <div class="shimmer shimmer-line w-4/5 mt-2" style="height:16px"></div>
         <div class="shimmer shimmer-line w-2/3 mt-4"></div>
       </div>
-
-      <!-- Content -->
+      <!-- content -->
       <div id="question-content" class="hidden flex-col justify-between h-full">
         <div>
-          <div class="flex items-center gap-2 mb-5">
+          <!-- type badge + category tag -->
+          <div class="flex items-center flex-wrap gap-2 mb-5">
             <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-tertiary-container rounded-full text-[11px] font-bold text-tertiary">
               <span class="material-symbols-outlined text-[14px]">edit_note</span>COACHING QUESTION
             </span>
-            <span id="question-category-pill" class="text-[10px] font-semibold px-2.5 py-1 rounded-full pill-default"></span>
+            <span id="question-cat-tag" class="text-[10px] font-bold px-2.5 py-1 rounded-full cat-default"></span>
           </div>
-          <h3 id="question-en" class="text-xl font-bold tracking-tight text-on-surface leading-snug"></h3>
-          <p id="question-th" class="question-th text-on-surface-variant"></p>
+          <h3 id="question-en" class="text-[1.15rem] font-bold tracking-tight leading-snug"></h3>
+          <!-- Thai translation — bold, generous line-height -->
+          <p id="question-th" class="thai-text hidden"></p>
         </div>
-        <div class="mt-7">
-          <button onclick="showPage('journal')" class="w-full bg-surface-container-low rounded-2xl px-5 py-3.5 flex items-center justify-between hover:bg-primary/5 transition-colors group">
-            <span class="text-outline italic text-[13px]">Reflect on this…</span>
-            <span class="material-symbols-outlined text-primary text-[20px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
-          </button>
-        </div>
+        <button onclick="showPage('journal')" class="mt-7 w-full bg-surface-container-low rounded-2xl px-5 py-3.5 flex items-center justify-between hover:bg-primary/5 transition-colors group">
+          <span class="text-outline italic text-[13px]">Reflect on this…</span>
+          <span class="material-symbols-outlined text-primary text-[20px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+        </button>
       </div>
     </div>
 
     <!-- ── WEEKLY PROGRESS ── -->
-    <div class="bg-secondary-container/20 rounded-xl p-7 flex flex-col sm:flex-row items-center justify-between gap-5">
+    <div class="bg-secondary-container/20 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-5">
       <div class="text-center sm:text-left space-y-1">
-        <h4 class="text-[15px] font-bold text-on-secondary-container">Weekly Reflections</h4>
-        <p class="text-on-surface-variant text-[13px] opacity-80 max-w-[190px]" id="progress-label">Keep showing up. Consistency is growth.</p>
+        <h4 class="text-[14px] font-bold text-on-secondary-container">Weekly Reflections</h4>
+        <p class="text-on-surface-variant text-[12px] opacity-80 max-w-[200px]" id="progress-label">Keep showing up.</p>
       </div>
-      <div class="flex gap-1.5 items-end" id="progress-bars">
-        <!-- filled by JS -->
+      <div class="flex gap-1.5 items-end" id="progress-bars"></div>
+    </div>
+
+    <!-- ── THE MIRROR — Recent Logs ── -->
+    <div id="mirror-section">
+      <div class="flex items-center justify-between mb-3 mt-2">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary" style="font-size:18px;">history</span>
+          <h4 class="text-[13px] font-bold text-on-surface tracking-tight">The Mirror</h4>
+          <span class="text-[10px] text-on-surface-variant/50 uppercase tracking-widest font-semibold">Recent Reflections</span>
+        </div>
+        <button onclick="loadMirror()" class="flex items-center gap-1 text-[11px] text-on-surface-variant hover:text-primary transition-colors">
+          <span class="material-symbols-outlined" style="font-size:13px;">refresh</span>
+        </button>
+      </div>
+      <div id="mirror-container" class="bg-surface-container-lowest rounded-xl px-5 py-1 shadow-[0_8px_24px_rgba(47,51,52,.04)]" style="border:1px solid rgba(175,179,179,.1)">
+        <!-- populated by JS -->
+        <div id="mirror-loading" class="py-10 flex flex-col items-center gap-2 text-on-surface-variant/40">
+          <span class="material-symbols-outlined opacity-30" style="font-size:2rem;">auto_stories</span>
+          <span class="text-[12px]">Your journey begins here.</span>
+        </div>
+        <div id="mirror-list" class="hidden"></div>
       </div>
     </div>
 
@@ -214,26 +342,26 @@ tailwind.config = {
 </div><!-- /page-spark -->
 
 
-<!-- ══════════════════════════ JOURNAL PAGE ══════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- JOURNAL PAGE                                        -->
+<!-- ═══════════════════════════════════════════════════ -->
 <div id="page-journal" class="page">
   <section class="mt-9 mb-8">
     <p class="text-[10px] font-semibold uppercase tracking-[.22em] text-on-surface-variant mb-2">Current Focus</p>
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-      <h2 class="text-[2.3rem] font-extrabold tracking-tighter text-on-surface">The Silent Journal.</h2>
+      <h2 class="text-[2.3rem] font-extrabold tracking-tighter">The Silent Journal.</h2>
       <div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full w-fit">
-        <span class="material-symbols-outlined text-primary" style="font-size:15px;">cloud_done</span>
-        <span class="text-[11px] font-medium text-on-surface-variant">Saves to Logs tab</span>
+        <span class="material-symbols-outlined text-primary" style="font-size:15px;">table_rows</span>
+        <span class="text-[11px] font-medium text-on-surface-variant">Saves → Logs tab</span>
       </div>
     </div>
   </section>
 
-  <!-- Writing Canvas -->
   <div class="relative group">
     <div class="absolute -inset-1 bg-gradient-to-tr from-primary/5 via-transparent to-secondary/5 rounded-[2rem] blur-2xl opacity-50 group-focus-within:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
     <div id="journal-canvas" class="relative bg-surface-container-lowest rounded-[1.5rem] p-6 sm:p-9 shadow-[0_20px_40px_rgba(47,51,52,.04)]">
-
-      <!-- Meta bar -->
-      <div class="mb-5 pb-4 flex flex-wrap items-start gap-y-2 gap-x-3" style="border-bottom:1px solid rgba(236,238,238,1)">
+      <!-- meta bar -->
+      <div class="mb-5 pb-4 flex flex-wrap items-start gap-y-2 gap-x-3" style="border-bottom:1px solid #eceeee">
         <div class="flex items-center gap-1.5 text-on-surface-variant/60">
           <span class="material-symbols-outlined" style="font-size:13px;">calendar_today</span>
           <span class="text-[12px] font-medium" id="journal-date">—</span>
@@ -243,108 +371,99 @@ tailwind.config = {
           <span class="material-symbols-outlined" style="font-size:13px;">schedule</span>
           <span class="text-[12px] font-medium" id="journal-time">—</span>
         </div>
-        <!-- Active question as prompt -->
         <div class="w-full mt-1 flex items-start gap-2 text-primary">
           <span class="material-symbols-outlined" style="font-size:14px;margin-top:2px;">lightbulb</span>
           <div>
-            <p class="text-[12px] font-bold leading-snug" id="journal-prompt-en">Load a question from the Spark page first.</p>
-            <p class="text-[11px] text-on-surface-variant/60 italic mt-0.5 leading-snug" id="journal-prompt-th"></p>
+            <p class="text-[12px] font-bold leading-snug" id="journal-prompt-en">Go to Spark to load a question first.</p>
+            <p class="thai-text hidden text-primary/70" id="journal-prompt-th"></p>
           </div>
         </div>
       </div>
-
-      <!-- Textarea -->
+      <!-- textarea -->
       <textarea id="journal-textarea"
-        class="w-full min-h-[280px] bg-transparent border-none focus:ring-0 text-[19px] sm:text-xl leading-relaxed text-on-surface placeholder:text-outline/35 font-body resize-none hide-scrollbar"
+        class="w-full min-h-[280px] bg-transparent border-none focus:ring-0 text-[19px] sm:text-xl leading-relaxed placeholder:text-outline/35 resize-none hide-scrollbar"
         placeholder="Start typing your thoughts here…"
         oninput="updateWordCount()"></textarea>
-
-      <!-- Bottom toolbar -->
-      <div class="mt-5 pt-4 flex items-center justify-between" style="border-top:1px solid rgba(236,238,238,1)">
-        <div class="flex gap-1">
-          <button onclick="loadQuestionForJournal()" title="Load new question" class="h-8 px-3 rounded-full flex items-center gap-1 text-on-surface-variant hover:bg-surface-container-high transition-colors text-[11px] font-medium">
-            <span class="material-symbols-outlined" style="font-size:15px;">refresh</span>New prompt
-          </button>
-        </div>
-        <div class="text-[11px] font-label text-outline/60 uppercase tracking-widest" id="word-count">Words: 0</div>
+      <!-- toolbar -->
+      <div class="mt-5 pt-4 flex items-center justify-between" style="border-top:1px solid #eceeee">
+        <button onclick="loadQuestionForJournal()" class="h-8 px-3 rounded-full flex items-center gap-1 text-on-surface-variant hover:bg-surface-container-high transition-colors text-[11px] font-medium">
+          <span class="material-symbols-outlined" style="font-size:15px;">refresh</span>New prompt
+        </button>
+        <span class="text-[11px] text-outline/60 uppercase tracking-widest" id="word-count">Words: 0</span>
       </div>
     </div>
   </div>
 
-  <!-- Save Button -->
-  <div class="mt-9 flex justify-center">
+  <!-- Save button — full width mobile, auto desktop -->
+  <div class="mt-8 flex justify-center">
     <button onclick="saveJournal()" id="save-btn"
-      class="group px-10 py-4 bg-gradient-to-r from-primary to-primary-dim text-on-primary rounded-full font-bold text-[15px] flex items-center gap-3 shadow-[0_10px_30px_rgba(74,102,74,.2)] hover:shadow-[0_15px_40px_rgba(74,102,74,.3)] hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50">
-      <span>Save to Logs</span>
-      <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+      class="group px-10 py-4 bg-gradient-to-r from-primary to-primary-dim text-on-primary rounded-full font-bold text-[15px] flex items-center gap-3 shadow-[0_10px_30px_rgba(74,102,74,.2)] hover:shadow-[0_16px_40px_rgba(74,102,74,.28)] hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none">
+      <span id="save-label">Save My Reflection</span>
+      <span id="save-icon" class="material-symbols-outlined group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
     </button>
   </div>
-  <p class="mt-5 text-center text-on-surface-variant/35 text-[12px] font-label italic">"Your writing is safe. Your story matters."</p>
+  <p class="mt-4 text-center text-on-surface-variant/35 text-[12px] italic">"Your writing is safe. Your story matters."</p>
 </div><!-- /page-journal -->
 
 
-<!-- ══════════════════════════ RETRO PAGE ══════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- RETRO PAGE                                          -->
+<!-- ═══════════════════════════════════════════════════ -->
 <div id="page-retro" class="page">
   <section class="mt-9 mb-12">
     <span class="text-primary font-semibold tracking-[.2em] uppercase text-[11px] mb-3 block">Reflective Practice</span>
-    <div class="flex flex-col sm:flex-row sm:items-end gap-6 sm:gap-14">
-      <div>
-        <h2 class="text-[3rem] font-bold tracking-tighter text-on-surface leading-[.95]">Quarterly<br/>Retro.</h2>
+    <div class="flex flex-col sm:flex-row sm:items-end gap-5 sm:gap-14">
+      <h2 class="text-[3rem] font-bold tracking-tighter leading-[.95]">Quarterly<br/>Retro.</h2>
+      <div class="sm:flex-1 space-y-2">
+        <p class="text-on-surface-variant text-[14px] leading-relaxed">Turn your experiences into wisdom.</p>
+        <div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full w-fit">
+          <span class="material-symbols-outlined text-tertiary" style="font-size:15px;">table_rows</span>
+          <span class="text-[11px] font-medium text-on-surface-variant">Saves → Retro tab</span>
+        </div>
       </div>
-      <p class="text-on-surface-variant text-[14px] leading-relaxed sm:flex-1">Turn your experiences into wisdom. Space to breathe, reflect, and set the horizon for the next three months.</p>
     </div>
   </section>
 
   <div class="space-y-11">
-    <!-- Field 1 -->
     <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
       <div class="sm:col-span-4">
-        <label class="text-[16px] font-semibold tracking-tight text-on-surface block">What went well?</label>
+        <label class="text-[15px] font-semibold tracking-tight block">What went well?</label>
         <p class="text-[12px] text-outline mt-1 italic">Identify your strengths and victories.</p>
       </div>
       <div class="sm:col-span-8">
-        <div class="relative group">
-          <textarea id="retro-well" rows="4" oninput="updateRetroRing()"
-            class="w-full bg-surface-container-lowest rounded-xl p-6 text-[15px] border-none focus:ring-0 placeholder:text-outline/45 transition-all duration-300 hover:shadow-md resize-none"
-            placeholder="Celebrate the progress you've made…"
-            style="box-shadow:0 2px 8px rgba(47,51,52,.04)"></textarea>
-          <div class="absolute inset-0 rounded-xl pointer-events-none transition-all duration-500 group-focus-within:shadow-[0_0_0_2px_rgba(74,102,74,.15)]"></div>
-        </div>
+        <textarea id="retro-well" rows="4" oninput="updateRetroRing()"
+          class="w-full bg-surface-container-lowest rounded-xl p-6 text-[15px] border-none focus:ring-0 placeholder:text-outline/45 hover:shadow-md resize-none transition-shadow"
+          placeholder="Celebrate the progress you've made…"
+          style="box-shadow:0 2px 8px rgba(47,51,52,.04)"></textarea>
       </div>
     </div>
-    <!-- Field 2 -->
     <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
       <div class="sm:col-span-4">
-        <label class="text-[16px] font-semibold tracking-tight text-on-surface block">What didn't go well?</label>
+        <label class="text-[15px] font-semibold tracking-tight block">What didn't go well?</label>
         <p class="text-[12px] text-outline mt-1 italic">Acknowledge friction with kindness.</p>
       </div>
       <div class="sm:col-span-8">
-        <div class="relative group">
-          <textarea id="retro-not" rows="4" oninput="updateRetroRing()"
-            class="w-full bg-surface-container-lowest rounded-xl p-6 text-[15px] border-none focus:ring-0 placeholder:text-outline/45 transition-all duration-300 hover:shadow-md resize-none"
-            placeholder="Note the obstacles and challenges…"
-            style="box-shadow:0 2px 8px rgba(47,51,52,.04)"></textarea>
-        </div>
+        <textarea id="retro-not" rows="4" oninput="updateRetroRing()"
+          class="w-full bg-surface-container-lowest rounded-xl p-6 text-[15px] border-none focus:ring-0 placeholder:text-outline/45 hover:shadow-md resize-none transition-shadow"
+          placeholder="Note the obstacles and challenges…"
+          style="box-shadow:0 2px 8px rgba(47,51,52,.04)"></textarea>
       </div>
     </div>
-    <!-- Field 3 -->
     <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
       <div class="sm:col-span-4">
-        <label class="text-[16px] font-semibold tracking-tight text-on-surface block">What did I learn?</label>
+        <label class="text-[15px] font-semibold tracking-tight block">What did I learn?</label>
         <p class="text-[12px] text-outline mt-1 italic">The distillation of experience.</p>
       </div>
       <div class="sm:col-span-8">
-        <div class="relative group">
-          <textarea id="retro-learn" rows="5" oninput="updateRetroRing()"
-            class="w-full bg-surface-container-lowest rounded-xl p-6 text-[15px] border-none focus:ring-0 placeholder:text-outline/45 transition-all duration-300 hover:shadow-md resize-none"
-            placeholder="The core lesson to carry forward…"
-            style="box-shadow:0 2px 8px rgba(47,51,52,.04)"></textarea>
-        </div>
+        <textarea id="retro-learn" rows="5" oninput="updateRetroRing()"
+          class="w-full bg-surface-container-lowest rounded-xl p-6 text-[15px] border-none focus:ring-0 placeholder:text-outline/45 hover:shadow-md resize-none transition-shadow"
+          placeholder="The core lesson to carry forward…"
+          style="box-shadow:0 2px 8px rgba(47,51,52,.04)"></textarea>
       </div>
     </div>
   </div>
 
-  <!-- Growth Ring -->
+  <!-- Growth ring -->
   <div class="py-12 flex justify-center">
     <div class="relative flex items-center justify-center">
       <svg class="w-28 h-28" viewBox="0 0 112 112" style="transform:rotate(-90deg)">
@@ -356,126 +475,151 @@ tailwind.config = {
       </svg>
       <div class="absolute flex flex-col items-center">
         <span class="text-[9px] font-bold text-secondary uppercase tracking-widest">Growth</span>
-        <span class="text-xl font-bold text-on-surface" id="retro-pct">0%</span>
+        <span class="text-xl font-bold" id="retro-pct">0%</span>
       </div>
     </div>
   </div>
 
-  <!-- Submit -->
   <div class="flex justify-end pb-10">
-    <button onclick="saveRetro()"
-      class="group relative px-10 py-4 rounded-full overflow-hidden transition-all duration-500 active:scale-95 shadow-xl shadow-primary/10">
+    <button onclick="saveRetro()" id="retro-btn"
+      class="group relative px-10 py-4 rounded-full overflow-hidden active:scale-95 shadow-xl shadow-primary/10 transition-all duration-300 disabled:opacity-60">
       <div class="absolute inset-0 bg-gradient-to-r from-primary to-primary-dim"></div>
       <div class="relative flex items-center gap-3">
-        <span class="text-on-primary font-bold tracking-wide">Seal the Reflection</span>
-        <span class="material-symbols-outlined text-on-primary transition-transform duration-500 group-hover:translate-x-1">auto_awesome</span>
+        <span id="retro-label" class="text-on-primary font-bold tracking-wide">Seal the Reflection</span>
+        <span id="retro-icon" class="material-symbols-outlined text-on-primary transition-transform duration-500 group-hover:translate-x-1">auto_awesome</span>
       </div>
     </button>
   </div>
 </div><!-- /page-retro -->
 
 
-<!-- ══════════════════════════ LOGS PAGE ══════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- LOGS PAGE                                           -->
+<!-- ═══════════════════════════════════════════════════ -->
 <div id="page-logs" class="page">
   <section class="mt-9 mb-8">
     <p class="text-[10px] font-semibold uppercase tracking-[.22em] text-on-surface-variant mb-2">Archive</p>
     <div class="flex items-end justify-between gap-3">
-      <h2 class="text-[2.3rem] font-extrabold tracking-tighter text-on-surface">My Logs.</h2>
+      <h2 class="text-[2.3rem] font-extrabold tracking-tighter">My Logs.</h2>
       <button onclick="loadLogs()" class="flex items-center gap-1.5 text-[11px] text-on-surface-variant bg-surface-container-low px-3 py-1.5 rounded-full hover:bg-surface-container transition-colors">
         <span class="material-symbols-outlined" style="font-size:14px;">refresh</span>Refresh
       </button>
     </div>
   </section>
-
-  <!-- Schema hint -->
-  <div class="flex items-center gap-2 mb-4 text-[11px] text-on-surface-variant/60">
-    <span class="material-symbols-outlined" style="font-size:13px;">info</span>
-    Columns: Timestamp · QuestionAsked · MyResponse
-  </div>
-
-  <div id="logs-container" class="bg-surface-container-lowest rounded-xl min-h-[200px] shadow-[0_20px_40px_rgba(47,51,52,.03)]" style="border:1px solid rgba(175,179,179,.1)">
+  <div id="logs-wrap" class="bg-surface-container-lowest rounded-xl min-h-[200px] shadow-[0_20px_40px_rgba(47,51,52,.03)]" style="border:1px solid rgba(175,179,179,.1)">
     <div id="logs-empty" class="flex flex-col items-center justify-center py-16 text-on-surface-variant/40 text-[13px] gap-2">
       <span class="material-symbols-outlined text-[2.5rem] opacity-30">auto_stories</span>
-      <span>Your reflections will appear here.</span>
+      <span>Your journey begins here.</span>
     </div>
-    <div id="logs-list" class="hidden divide-y divide-surface-container-low/60 px-1"></div>
+    <div id="logs-list" class="hidden px-1"></div>
   </div>
 </div><!-- /page-logs -->
 
 
-<!-- ══════════════════════════ SETTINGS PAGE ══════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SETTINGS PAGE                                       -->
+<!-- ═══════════════════════════════════════════════════ -->
 <div id="page-settings" class="page">
   <section class="mt-9 mb-8">
     <p class="text-[10px] font-semibold uppercase tracking-[.22em] text-on-surface-variant mb-2">Configuration</p>
-    <h2 class="text-[2.3rem] font-extrabold tracking-tighter text-on-surface">Settings.</h2>
+    <h2 class="text-[2.3rem] font-extrabold tracking-tighter">Settings.</h2>
   </section>
 
   <div class="space-y-4">
 
-    <!-- Read data -->
-    <div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_20px_40px_rgba(47,51,52,.03)]" style="border:1px solid rgba(175,179,179,.1)">
-      <div class="flex items-center gap-2 mb-1">
-        <span class="material-symbols-outlined text-primary" style="font-size:18px;">table_chart</span>
-        <h3 class="font-bold text-[15px] text-on-surface">Data Source — CSV per Tab</h3>
+    <!-- How it works -->
+    <div class="bg-surface-container-lowest rounded-xl p-6" style="border:1px solid rgba(175,179,179,.1)">
+      <div class="flex items-center gap-2 mb-5">
+        <span class="material-symbols-outlined text-secondary" style="font-size:18px;">info</span>
+        <h3 class="font-bold text-[15px]">How saving works</h3>
       </div>
-      <p class="text-[12px] text-on-surface-variant mb-5 ml-7">Each tab needs its own published CSV URL (File → Share → Publish to Web → select tab → CSV).</p>
-
-      <label class="text-[11px] uppercase tracking-widest text-on-surface-variant font-semibold block mb-1.5">Trivia tab CSV URL</label>
-      <input type="text" id="csv-trivia" placeholder="https://docs.google.com/spreadsheets/d/e/…/pub?gid=0&output=csv">
-
-      <label class="text-[11px] uppercase tracking-widest text-on-surface-variant font-semibold block mb-1.5 mt-4">CoachingQuestions tab CSV URL</label>
-      <input type="text" id="csv-coaching" placeholder="https://docs.google.com/spreadsheets/d/e/…/pub?gid=XXXXXX&output=csv">
-
-      <button onclick="saveCSVUrls()" class="mt-4 w-full py-3 bg-gradient-to-r from-primary to-primary-dim text-on-primary rounded-full font-bold text-[13px] hover:shadow-lg transition-all duration-300">
-        Save &amp; Load Data
-      </button>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="bg-surface-container-low rounded-xl p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="material-symbols-outlined text-primary" style="font-size:15px;">download</span>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-primary">Reading</span>
+          </div>
+          <p class="text-[12px] text-on-surface-variant leading-relaxed">Trivia &amp; Questions are fetched from published <strong>CSV URLs</strong>. No auth needed.</p>
+          <div class="mt-2 flex items-center gap-1 text-[11px] text-primary font-semibold">
+            <span class="material-symbols-outlined" style="font-size:13px;">check_circle</span>Works now
+          </div>
+        </div>
+        <div class="bg-surface-container-low rounded-xl p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="material-symbols-outlined text-tertiary" style="font-size:15px;">upload</span>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-tertiary">Writing</span>
+          </div>
+          <p class="text-[12px] text-on-surface-variant leading-relaxed">Saving back to Sheets requires <strong>Apps Script</strong>. One-time 2-min setup.</p>
+          <div class="mt-2 flex items-center gap-1 text-[11px] text-tertiary font-semibold">
+            <span class="material-symbols-outlined" style="font-size:13px;">lock</span>Needs auth
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Write-back -->
-    <div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_20px_40px_rgba(47,51,52,.03)]" style="border:1px solid rgba(175,179,179,.1)">
-      <div class="flex items-center gap-2 mb-1">
-        <span class="material-symbols-outlined text-secondary" style="font-size:18px;">cloud_upload</span>
-        <h3 class="font-bold text-[15px] text-on-surface">Write-back — Apps Script URL</h3>
+    <!-- Setup guide -->
+    <div class="bg-surface-container-lowest rounded-xl p-6" style="border:1px solid rgba(175,179,179,.1)">
+      <div class="flex items-center gap-2 mb-5">
+        <span class="material-symbols-outlined text-primary" style="font-size:18px;">rocket_launch</span>
+        <h3 class="font-bold text-[15px]">2-minute setup guide</h3>
       </div>
-      <p class="text-[12px] text-on-surface-variant mb-5 ml-7">Deploy the Apps Script below to enable saving to your Logs tab.</p>
+      <div class="space-y-0">
+        <div class="flex gap-3"><div class="flex flex-col items-center"><div class="step-num">1</div><div class="step-connector"></div></div><div class="pb-4"><p class="text-[13px] font-semibold mb-1">Add a <code>Retro</code> tab</p><p class="text-[12px] text-on-surface-variant">Columns: <code>Timestamp</code> · <code>WentWell</code> · <code>DidntGoWell</code> · <code>Learned</code></p></div></div>
+        <div class="flex gap-3"><div class="flex flex-col items-center"><div class="step-num">2</div><div class="step-connector"></div></div><div class="pb-4"><p class="text-[13px] font-semibold mb-1">Open Apps Script</p><p class="text-[12px] text-on-surface-variant">Extensions → Apps Script. Delete existing code.</p></div></div>
+        <div class="flex gap-3"><div class="flex flex-col items-center"><div class="step-num">3</div><div class="step-connector"></div></div><div class="pb-4"><p class="text-[13px] font-semibold mb-1">Paste code → Deploy as Web App</p><p class="text-[12px] text-on-surface-variant">Execute as: <strong>Me</strong> · Access: <strong>Anyone</strong>. Copy the URL.</p></div></div>
+        <div class="flex gap-3"><div class="flex flex-col items-center"><div class="step-num">4</div></div><div class="pb-2"><p class="text-[13px] font-semibold mb-1">Paste URL below → Save</p><p class="text-[12px] text-on-surface-variant">Journal → <code>Logs</code> tab. Retro → <code>Retro</code> tab.</p></div></div>
+      </div>
+    </div>
 
+    <!-- CSV URLs -->
+    <div class="bg-surface-container-lowest rounded-xl p-6" style="border:1px solid rgba(175,179,179,.1)">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="material-symbols-outlined text-primary" style="font-size:18px;">download</span>
+        <h3 class="font-bold text-[15px]">Step A — CSV URLs (reading)</h3>
+      </div>
+      <p class="text-[12px] text-on-surface-variant mb-4 ml-7">File → Share → Publish to Web → choose tab → CSV → copy. Repeat for each tab.</p>
+      <label class="text-[11px] uppercase tracking-widest text-on-surface-variant font-semibold block mb-1.5">Trivia tab</label>
+      <input type="text" id="csv-trivia" placeholder="…/pub?gid=0&output=csv">
+      <label class="text-[11px] uppercase tracking-widest text-on-surface-variant font-semibold block mb-1.5 mt-4">CoachingQuestions tab</label>
+      <input type="text" id="csv-coaching" placeholder="…/pub?gid=XXXXXX&output=csv">
+      <button onclick="saveCSVUrls()" class="mt-4 w-full py-3 bg-gradient-to-r from-primary to-primary-dim text-on-primary rounded-full font-bold text-[13px] hover:shadow-lg transition-all duration-300">Save &amp; Load Data</button>
+    </div>
+
+    <!-- Script URL -->
+    <div class="bg-surface-container-lowest rounded-xl p-6" style="border:1px solid rgba(175,179,179,.1)">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="material-symbols-outlined text-tertiary" style="font-size:18px;">upload</span>
+        <h3 class="font-bold text-[15px]">Step B — Apps Script URL (writing)</h3>
+      </div>
+      <p class="text-[12px] text-on-surface-variant mb-4 ml-7">Paste your deployed Web App URL here.</p>
       <label class="text-[11px] uppercase tracking-widest text-on-surface-variant font-semibold block mb-1.5">Web App URL</label>
       <input type="text" id="script-url-input" placeholder="https://script.google.com/macros/s/…/exec">
-
       <label class="text-[11px] uppercase tracking-widest text-on-surface-variant font-semibold block mb-1.5 mt-4">Secret Key (optional)</label>
       <input type="password" id="script-key-input" placeholder="Leave blank if not set">
-
-      <button onclick="saveScriptSettings()" class="mt-4 w-full py-3 rounded-full font-bold text-[13px] transition-all duration-300"
-        style="background:#cfe5ff;color:#365471;">
-        Save Script Settings
-      </button>
+      <button onclick="saveScriptSettings()" class="mt-4 w-full py-3 rounded-full font-bold text-[13px] transition-all" style="background:#cfe5ff;color:#365471;">Save Script Settings</button>
     </div>
 
-    <!-- Schema info -->
+    <!-- Apps Script code -->
     <div class="bg-surface-container-low rounded-xl p-6">
-      <h3 class="font-bold text-[13px] text-on-surface mb-4 uppercase tracking-wider">Your Sheet Schema</h3>
-      <div class="space-y-3 text-[12px] text-on-surface-variant leading-relaxed">
-        <div class="flex gap-3">
-          <code class="bg-primary-container text-on-primary-container px-2 py-0.5 rounded font-bold text-[11px] whitespace-nowrap">Trivia</code>
-          <span>Columns: <strong>Fact</strong>, <strong>DidYouKnow</strong>, <strong>Category</strong></span>
-        </div>
-        <div class="flex gap-3">
-          <code class="bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded font-bold text-[11px] whitespace-nowrap">CoachingQuestions</code>
-          <span>Columns: <strong>Category</strong>, <strong>Question</strong>, <strong>QuestionTH</strong></span>
-        </div>
-        <div class="flex gap-3">
-          <code class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded font-bold text-[11px] whitespace-nowrap">Logs</code>
-          <span>Columns: <strong>Timestamp</strong>, <strong>QuestionAsked</strong>, <strong>MyResponse</strong></span>
-        </div>
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="font-bold text-[13px] uppercase tracking-wider">Apps Script Code</h3>
+        <button onclick="copyScript()" class="flex items-center gap-1 text-[11px] text-primary font-semibold hover:opacity-70 transition-opacity">
+          <span class="material-symbols-outlined" style="font-size:14px;">content_copy</span>Copy
+        </button>
       </div>
+      <textarea readonly id="script-code-display" onclick="this.select()"
+        class="w-full font-mono text-[11px] bg-surface-container p-4 rounded-lg text-on-surface-variant border-none focus:ring-0 resize-none" rows="22"></textarea>
     </div>
 
-    <!-- Apps Script -->
+    <!-- Schema reference -->
     <div class="bg-surface-container-low rounded-xl p-6">
-      <h3 class="font-bold text-[13px] text-on-surface mb-2 uppercase tracking-wider">Apps Script Code</h3>
-      <p class="text-[11px] text-on-surface-variant mb-3">Click to select all → copy → paste into Extensions → Apps Script</p>
-      <textarea readonly onclick="this.select()" id="script-code-display"
-        class="w-full font-mono text-[11px] bg-surface-container p-4 rounded-lg text-on-surface-variant border-none focus:ring-0 resize-none" rows="20"></textarea>
+      <h3 class="font-bold text-[13px] uppercase tracking-wider mb-4">Sheet Schema</h3>
+      <div class="space-y-3 text-[12px] text-on-surface-variant">
+        <div class="flex gap-3 items-start"><code class="bg-primary-container text-on-primary-container px-2 py-0.5 rounded font-bold text-[11px] whitespace-nowrap mt-0.5">Trivia</code><span><strong>Fact</strong>, <strong>DidYouKnow</strong>, <strong>Category</strong></span></div>
+        <div class="flex gap-3 items-start"><code class="bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded font-bold text-[11px] whitespace-nowrap mt-0.5">CoachingQuestions</code><span><strong>Category</strong>, <strong>Question</strong>, <strong>QuestionTH</strong></span></div>
+        <div class="flex gap-3 items-start"><code class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded font-bold text-[11px] whitespace-nowrap mt-0.5">Logs</code><span><strong>Timestamp</strong>, <strong>QuestionAsked</strong>, <strong>MyResponse</strong></span></div>
+        <div class="flex gap-3 items-start"><code class="px-2 py-0.5 rounded font-bold text-[11px] whitespace-nowrap mt-0.5" style="background:#edffe3;color:#3c5538;">Retro</code><span><strong>Timestamp</strong>, <strong>WentWell</strong>, <strong>DidntGoWell</strong>, <strong>Learned</strong></span></div>
+      </div>
     </div>
 
   </div>
@@ -490,8 +634,8 @@ tailwind.config = {
 </button>
 
 <!-- BOTTOM NAV -->
-<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-3 pb-6 pt-3 bg-[#f9f9f9]/75 backdrop-blur-3xl z-50 rounded-t-[2rem] shadow-[0_-8px_32px_rgba(47,51,52,.05)]">
-  <button onclick="showPage('spark')"   id="nav-spark"   class="nav-btn active   flex flex-col items-center px-4 py-2 rounded-2xl gap-0.5">
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-3 pb-6 pt-3 bg-[#f9f9f9]/80 backdrop-blur-3xl z-50 rounded-t-[2rem] shadow-[0_-8px_32px_rgba(47,51,52,.06)]">
+  <button onclick="showPage('spark')"   id="nav-spark"   class="nav-btn active flex flex-col items-center px-4 py-2 rounded-2xl gap-0.5">
     <span class="material-symbols-outlined text-[22px]" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">auto_awesome</span>
     <span class="text-[10px] font-semibold tracking-wide uppercase">Spark</span>
   </button>
@@ -509,16 +653,14 @@ tailwind.config = {
   </button>
 </nav>
 
-<!-- ══════════════════════════ JAVASCRIPT ══════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- JAVASCRIPT                                          -->
+<!-- ═══════════════════════════════════════════════════ -->
 <script>
-// ── STATE ──────────────────────────────────────────────────────────
-const state = {
-  triviaRows: [],       // [{Fact, DidYouKnow, Category}]
-  questionRows: [],     // [{Category, Question, QuestionTH}]
-  currentQuestion: null // active question object for journaling
-};
+// ── STATE ──────────────────────────────────────────────────────
+const APP_USER = 'Nuch'; // personalise success message
+const state = { triviaRows:[], questionRows:[], currentQuestion:null };
 
-// ── CONFIG ─────────────────────────────────────────────────────────
 function cfg() {
   return {
     csvTrivia:   localStorage.getItem('iw_csv_trivia')   || '',
@@ -528,466 +670,562 @@ function cfg() {
   };
 }
 
-// ── TOAST ──────────────────────────────────────────────────────────
-function toast(msg, type='') {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'show' + (type ? ' '+type : '');
-  clearTimeout(el._t);
-  el._t = setTimeout(() => { el.className = ''; }, 3200);
-}
-
-// ── DATETIME ───────────────────────────────────────────────────────
-function initDateTime() {
-  const now  = new Date();
-  const h    = now.getHours();
-  const greet = h < 12 ? 'Good Morning' : h < 17 ? 'Good Afternoon' : 'Good Evening';
-  document.getElementById('header-greeting').textContent = greet;
-  document.getElementById('hero-date').textContent =
-    now.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
-  document.getElementById('journal-date').textContent =
-    now.toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
-
-  // live clock
-  function tick() {
-    document.getElementById('journal-time').textContent =
-      new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+// ── URL NORMALISER ─────────────────────────────────────────────
+function normaliseToCsvUrl(raw) {
+  if (!raw) return '';
+  raw = raw.trim();
+  if (raw.includes('output=csv')) return raw;
+  const gidMatch = raw.match(/[?&]gid=(\d+)/);
+  const gid = gidMatch ? gidMatch[1] : null;
+  const hashMatch = raw.match(/\/e\/([A-Za-z0-9_-]+)\//);
+  if (hashMatch) {
+    let u = `https://docs.google.com/spreadsheets/d/e/${hashMatch[1]}/pub?output=csv`;
+    if (gid) u += `&gid=${gid}`;
+    return u;
   }
-  tick();
-  setInterval(tick, 30000);
+  const idMatch = raw.match(/\/d\/([A-Za-z0-9_-]+)/);
+  if (idMatch) {
+    let u = `https://docs.google.com/spreadsheets/d/${idMatch[1]}/export?format=csv`;
+    if (gid) u += `&gid=${gid}`;
+    return u;
+  }
+  return raw;
 }
 
-// ── CSV FETCH (with CORS proxy fallback) ───────────────────────────
-async function fetchCSV(url) {
-  if (!url) return [];
-  const proxied = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-  const res = await fetch(proxied);
-  if (!res.ok) throw new Error('fetch failed');
-  return res.text();
+// ── MULTI-PROXY FETCH ──────────────────────────────────────────
+const PROXIES = [
+  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+  u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
+];
+async function fetchCSV(rawUrl) {
+  if (!rawUrl) throw new Error('No URL');
+  const url = normaliseToCsvUrl(rawUrl);
+  let lastErr;
+  for (const mk of PROXIES) {
+    try {
+      const res = await fetch(mk(url), { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      if (!text?.trim()) throw new Error('Empty');
+      if (text.trim().startsWith('<')) throw new Error('Got HTML');
+      return text;
+    } catch(e) { lastErr = e; }
+  }
+  throw new Error('All proxies failed: ' + (lastErr?.message||'?'));
 }
 
-function parseCSVText(text) {
-  // Robust CSV parser: handles quoted fields containing commas/newlines
-  const rows = [];
-  let row = [], field = '', inQuote = false;
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i], next = text[i+1];
-    if (inQuote) {
-      if (ch === '"' && next === '"') { field += '"'; i++; }
-      else if (ch === '"') { inQuote = false; }
-      else { field += ch; }
+// ── CSV PARSER ─────────────────────────────────────────────────
+function parseCSV(text) {
+  const rows=[]; let row=[], field='', inQ=false;
+  for (let i=0;i<text.length;i++) {
+    const c=text[i],n=text[i+1];
+    if (inQ) {
+      if(c==='"'&&n==='"'){field+='"';i++;}
+      else if(c==='"'){inQ=false;}
+      else field+=c;
     } else {
-      if (ch === '"') { inQuote = true; }
-      else if (ch === ',') { row.push(field.trim()); field = ''; }
-      else if (ch === '\n' || (ch === '\r' && next === '\n')) {
-        if (ch === '\r') i++;
-        row.push(field.trim()); rows.push(row); row = []; field = '';
-      } else { field += ch; }
+      if(c==='"'){inQ=true;}
+      else if(c===','){row.push(field.trim());field='';}
+      else if(c==='\n'||(c==='\r'&&n==='\n')){
+        if(c==='\r')i++;
+        row.push(field.trim());rows.push(row);row=[];field='';
+      } else field+=c;
     }
   }
-  if (field || row.length) { row.push(field.trim()); rows.push(row); }
-  return rows.filter(r => r.some(c => c !== ''));
+  if(field||row.length){row.push(field.trim());rows.push(row);}
+  return rows.filter(r=>r.some(c=>c!==''));
 }
 
-// ── LOAD TRIVIA ────────────────────────────────────────────────────
+function findCol(h,...pats) {
+  for(const p of pats){
+    const re=new RegExp(p,'i');
+    const i=h.findIndex(x=>re.test(x.replace(/\s/g,'')));
+    if(i!==-1)return i;
+  }
+  return -1;
+}
+
+// ── CATEGORY → CSS CLASS ───────────────────────────────────────
+function catClass(cat) {
+  const c=(cat||'').toLowerCase();
+  if(/finance|money|invest|budget/.test(c))  return 'cat-finance';
+  if(/history|histor/.test(c))               return 'cat-history';
+  if(/science|bio|physics|chem/.test(c))     return 'cat-science';
+  if(/health|wellness|body|fitness/.test(c)) return 'cat-health';
+  if(/mind|mental|psych|focus|emotion/.test(c)) return 'cat-mind';
+  if(/growth|learn|develop|skill/.test(c))   return 'cat-growth';
+  if(/lifestyle|life|habit|routine/.test(c)) return 'cat-lifestyle';
+  if(/work|career|business|leader/.test(c))  return 'cat-work';
+  return 'cat-default';
+}
+
+// ── TOAST ──────────────────────────────────────────────────────
+function toast(msg, type='') {
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='show'+(type?' '+type:'');
+  clearTimeout(el._t); el._t=setTimeout(()=>{el.className='';},3400);
+}
+
+// ── SUCCESS OVERLAY + CONFETTI ─────────────────────────────────
+function showSuccess(title, msg) {
+  document.getElementById('success-title').textContent = title;
+  document.getElementById('success-msg').textContent   = msg;
+  document.getElementById('success-overlay').classList.add('show');
+
+  // canvas-confetti — botanical greens palette
+  const colors = ['#4a664a','#86A789','#cbebc8','#b9d7fa','#edffe3','#dff0d5'];
+  confetti({
+    particleCount: 90,
+    spread: 70,
+    origin: { y: 0.55 },
+    colors,
+    shapes: ['circle','square'],
+    scalar: 0.9
+  });
+  setTimeout(() => confetti({
+    particleCount: 50, angle: 60, spread: 55,
+    origin: { x: 0, y: 0.6 }, colors
+  }), 280);
+  setTimeout(() => confetti({
+    particleCount: 50, angle: 120, spread: 55,
+    origin: { x: 1, y: 0.6 }, colors
+  }), 420);
+}
+function closeSuccess() {
+  document.getElementById('success-overlay').classList.remove('show');
+}
+
+// ── SAVE BUTTON — loading / idle states ───────────────────────
+function setSavingState(saving) {
+  const btn  = document.getElementById('save-btn');
+  const lbl  = document.getElementById('save-label');
+  const icon = document.getElementById('save-icon');
+  if (saving) {
+    btn.disabled = true;
+    lbl.textContent = 'Saving…';
+    icon.outerHTML = '<span class="spinner" id="save-icon"></span>';
+  } else {
+    btn.disabled = false;
+    lbl.textContent = 'Save My Reflection';
+    const sp = document.getElementById('save-icon');
+    if (sp) sp.outerHTML = '<span id="save-icon" class="material-symbols-outlined group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>';
+  }
+}
+function setRetroSavingState(saving) {
+  const btn  = document.getElementById('retro-btn');
+  const lbl  = document.getElementById('retro-label');
+  const icon = document.getElementById('retro-icon');
+  btn.disabled = saving;
+  if (saving) {
+    lbl.textContent = 'Saving…';
+    icon.style.display = 'none';
+  } else {
+    lbl.textContent = 'Seal the Reflection';
+    icon.style.display = '';
+  }
+}
+
+// ── DATETIME ───────────────────────────────────────────────────
+function initDateTime() {
+  const now=new Date(), h=now.getHours();
+  document.getElementById('header-greeting').textContent =
+    h<12?'Good Morning, '+APP_USER:h<17?'Good Afternoon, '+APP_USER:'Good Evening, '+APP_USER;
+  document.getElementById('hero-date').textContent =
+    now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  document.getElementById('journal-date').textContent =
+    now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  const tick=()=>{document.getElementById('journal-time').textContent=
+    new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});};
+  tick(); setInterval(tick,30000);
+}
+
+// ── QUARTERLY RETRO BANNER ─────────────────────────────────────
+function checkRetroBanner() {
+  const month = new Date().getMonth(); // 0-based: Feb=1, May=4, Aug=7, Nov=10
+  const isQuarterEnd = [2,5,8,11].includes(month); // Mar=2, Jun=5, Sep=8, Dec=11
+  if (isQuarterEnd) {
+    document.getElementById('retro-banner').style.display = 'flex';
+  }
+}
+
+// ── LOAD TRIVIA ────────────────────────────────────────────────
 async function loadAllTrivia() {
-  const c = cfg();
+  const c=cfg();
   if (!c.csvTrivia) {
-    // Demo data
-    state.triviaRows = [
-      { Fact: 'The "Blue Zone" Mindset', DidYouKnow: 'Communities where people live longest don\'t exercise traditionally — they move naturally every 20 minutes through gardening and daily walks.', Category: 'Health' },
-      { Fact: 'Neuroplasticity & Habits', DidYouKnow: 'The brain rewires itself through every new habit. Consistency over 66 days creates lasting neural pathways that make change effortless.', Category: 'Mind' },
-      { Fact: 'Gratitude & Dopamine', DidYouKnow: 'Gratitude activates the prefrontal cortex, reducing anxiety and boosting dopamine — your brain\'s natural reward chemical.', Category: 'Growth' },
+    state.triviaRows=[
+      {Fact:'The "Blue Zone" Mindset',DidYouKnow:'People in the world\'s longest-living communities move naturally every 20 minutes — gardening, walking, and doing chores — rather than structured gym workouts.',Category:'Health'},
+      {Fact:'Neuroplasticity & Habits',DidYouKnow:'The brain physically rewires itself with each new habit. Research shows 66 days of consistency is enough to make a behaviour feel automatic.',Category:'Mind'},
+      {Fact:'Compound Interest of Growth',DidYouKnow:'1% better every day for a year = 37× better. The maths of compounding applies to skills, relationships, and mindset — not just finance.',Category:'Finance'},
     ];
-    loadTrivia();
-    return;
+    loadTrivia(); return;
   }
   try {
-    const raw = await fetchCSV(c.csvTrivia);
-    const rows = parseCSVText(raw);
-    if (rows.length < 2) throw new Error('no data');
-    const header = rows[0].map(h => h.trim());
-    // Map: Fact, DidYouKnow, Category
-    const iF = header.findIndex(h => /fact/i.test(h));
-    const iD = header.findIndex(h => /didyouknow|did you know/i.test(h));
-    const iC = header.findIndex(h => /category/i.test(h));
-    state.triviaRows = rows.slice(1)
-      .map(r => ({
-        Fact:       (r[iF]  || r[0] || '').trim(),
-        DidYouKnow: (r[iD]  || r[1] || '').trim(),
-        Category:   (r[iC]  || r[2] || '').trim()
-      }))
-      .filter(r => r.Fact);
+    const rows=parseCSV(await fetchCSV(c.csvTrivia));
+    if(rows.length<2) throw new Error(`Only ${rows.length} row(s)`);
+    const h=rows[0].map(x=>x.trim());
+    const iF=findCol(h,'fact');
+    const iD=findCol(h,'didyouknow','did_you_know','dyk','description','body','detail');
+    const iC=findCol(h,'category','cat','type','tag');
+    state.triviaRows=rows.slice(1).map(r=>({
+      Fact:      (iF>=0?r[iF]:r[0]||'').trim(),
+      DidYouKnow:(iD>=0?r[iD]:r[1]||'').trim(),
+      Category:  (iC>=0?r[iC]:r[2]||'').trim()
+    })).filter(r=>r.Fact);
+    if(!state.triviaRows.length) throw new Error('No Fact values found');
     loadTrivia();
   } catch(e) {
-    console.warn('Trivia CSV error:', e);
-    // show placeholder
-    showContent('trivia', false);
-    document.getElementById('trivia-fact').textContent = 'Could not load Trivia data.';
-    document.getElementById('trivia-didyouknow').textContent = 'Check your CSV URL in Settings.';
-    showContent('trivia', true);
+    showContent('trivia',true);
+    document.getElementById('trivia-fact').textContent='⚠ Could not load Trivia';
+    document.getElementById('trivia-didyouknow').textContent=e.message+' — check Settings.';
+    toast('Trivia: '+e.message,'error');
   }
 }
 
 async function loadAllQuestions() {
-  const c = cfg();
+  const c=cfg();
   if (!c.csvCoaching) {
-    state.questionRows = [
-      { Category: 'Growth', Question: 'What is one small thing you can simplify today?',        QuestionTH: 'มีสิ่งเล็กๆ อะไรที่คุณทำให้เรียบง่ายขึ้นได้ในวันนี้?' },
-      { Category: 'Mind',   Question: 'Where are you seeking permission you can give yourself?', QuestionTH: 'คุณกำลังมองหาการอนุญาตที่คุณสามารถให้ตัวเองได้ที่ไหน?' },
-      { Category: 'Growth', Question: 'What would you do today if you knew it was enough?',      QuestionTH: 'คุณจะทำอะไรในวันนี้ถ้าคุณรู้ว่ามันเพียงพอแล้ว?' },
+    state.questionRows=[
+      {Category:'Growth',Question:'What is one small thing you can simplify today?',QuestionTH:'มีสิ่งเล็กๆ อะไรที่คุณทำให้เรียบง่ายขึ้นได้ในวันนี้?'},
+      {Category:'Mind',Question:'Where are you seeking permission you can give yourself?',QuestionTH:'คุณกำลังมองหาการอนุญาตที่คุณสามารถให้ตัวเองได้ที่ไหน?'},
+      {Category:'Growth',Question:'What would you do today if you knew it was enough?',QuestionTH:'คุณจะทำอะไรในวันนี้ถ้าคุณรู้ว่ามันเพียงพอแล้ว?'},
     ];
-    loadQuestion();
-    return;
+    loadQuestion(); return;
   }
   try {
-    const raw = await fetchCSV(c.csvCoaching);
-    const rows = parseCSVText(raw);
-    if (rows.length < 2) throw new Error('no data');
-    const header = rows[0].map(h => h.trim());
-    const iCat = header.findIndex(h => /category/i.test(h));
-    const iQ   = header.findIndex(h => /^question$/i.test(h));
-    const iTH  = header.findIndex(h => /questionth|question.*th/i.test(h));
-    state.questionRows = rows.slice(1)
-      .map(r => ({
-        Category:   (r[iCat] || r[0] || '').trim(),
-        Question:   (r[iQ]   || r[1] || '').trim(),
-        QuestionTH: (r[iTH]  || r[2] || '').trim()
-      }))
-      .filter(r => r.Question);
+    const rows=parseCSV(await fetchCSV(c.csvCoaching));
+    if(rows.length<2) throw new Error(`Only ${rows.length} row(s)`);
+    const h=rows[0].map(x=>x.trim());
+    const iCat=findCol(h,'category','cat','type');
+    const iQ  =findCol(h,'^question$','question_en','questioneng','eng');
+    const iTH =findCol(h,'questionth','question_th','thai','_th$','th$');
+    state.questionRows=rows.slice(1).map(r=>({
+      Category:  (iCat>=0?r[iCat]:r[0]||'').trim(),
+      Question:  (iQ>=0?r[iQ]:r[1]||'').trim(),
+      QuestionTH:(iTH>=0?r[iTH]:r[2]||'').trim()
+    })).filter(r=>r.Question);
+    if(!state.questionRows.length) throw new Error('No Question values found');
     loadQuestion();
   } catch(e) {
-    console.warn('Coaching CSV error:', e);
-    showContent('question', false);
-    document.getElementById('question-en').textContent = 'Could not load questions.';
-    document.getElementById('question-th').textContent = 'Check your CSV URL in Settings.';
-    showContent('question', true);
+    showContent('question',true);
+    document.getElementById('question-en').textContent='⚠ Could not load questions';
+    document.getElementById('question-th').textContent=e.message+' — check Settings.';
+    toast('Questions: '+e.message,'error');
   }
 }
 
-// ── SHOW HELPERS ───────────────────────────────────────────────────
+// ── DISPLAY HELPERS ────────────────────────────────────────────
 function showContent(type, visible) {
-  const shimmer  = document.getElementById(type + '-shimmer');
-  const content  = document.getElementById(type + '-content');
-  shimmer.classList.toggle('hidden', visible);
-  content.classList.toggle('hidden', !visible);
-  if (visible) content.classList.add('flex');
+  document.getElementById(type+'-shimmer').classList.toggle('hidden', visible);
+  const el=document.getElementById(type+'-content');
+  el.classList.toggle('hidden',!visible);
+  if(visible) el.classList.add('flex');
 }
 
-function pillClass(category) {
-  const c = (category||'').toLowerCase();
-  if (/health|wellness/i.test(c)) return 'pill-health';
-  if (/mind|mental|focus/i.test(c)) return 'pill-mind';
-  if (/growth|learn|develop/i.test(c)) return 'pill-growth';
-  return 'pill-default';
+function setCatTag(elId, category) {
+  const el=document.getElementById(elId);
+  if (!category) { el.style.display='none'; return; }
+  el.textContent = '#'+category;
+  el.className   = 'text-[10px] font-bold px-2.5 py-1 rounded-full '+catClass(category);
+  el.style.display = '';
 }
 
-// ── LOAD TRIVIA (pick random row) ──────────────────────────────────
 function loadTrivia() {
-  if (!state.triviaRows.length) return;
-  const row = state.triviaRows[Math.floor(Math.random() * state.triviaRows.length)];
-  document.getElementById('trivia-fact').textContent       = row.Fact;
-  document.getElementById('trivia-didyouknow').textContent = row.DidYouKnow;
-  // Category pill
-  const pill = document.getElementById('trivia-category-pill');
-  pill.textContent  = row.Category || '';
-  pill.className    = 'text-[10px] font-semibold px-2.5 py-1 rounded-full ' + pillClass(row.Category);
-  pill.style.display = row.Category ? '' : 'none';
-  document.getElementById('trivia-cat-label').textContent = row.Category ? row.Category : '';
-  showContent('trivia', true);
+  if(!state.triviaRows.length) return;
+  const r=state.triviaRows[Math.floor(Math.random()*state.triviaRows.length)];
+  document.getElementById('trivia-fact').textContent      = r.Fact;
+  document.getElementById('trivia-didyouknow').textContent= r.DidYouKnow;
+  document.getElementById('trivia-cat-bottom').textContent= r.Category||'';
+  setCatTag('trivia-cat-tag', r.Category);
+  showContent('trivia',true);
 }
 
-// ── LOAD QUESTION (pick random row) ───────────────────────────────
 function loadQuestion() {
-  if (!state.questionRows.length) return;
-  const row = state.questionRows[Math.floor(Math.random() * state.questionRows.length)];
-  state.currentQuestion = row;
-  document.getElementById('question-en').textContent = row.Question;
-  document.getElementById('question-th').textContent = row.QuestionTH || '';
-  document.getElementById('question-th').style.display = row.QuestionTH ? '' : 'none';
-
-  const pill = document.getElementById('question-category-pill');
-  pill.textContent = row.Category || '';
-  pill.className   = 'text-[10px] font-semibold px-2.5 py-1 rounded-full ' + pillClass(row.Category);
-  pill.style.display = row.Category ? '' : 'none';
-
-  // sync to journal prompt
-  syncPromptToJournal(row);
-  showContent('question', true);
+  if(!state.questionRows.length) return;
+  const r=state.questionRows[Math.floor(Math.random()*state.questionRows.length)];
+  state.currentQuestion=r;
+  document.getElementById('question-en').textContent=r.Question;
+  const th=document.getElementById('question-th');
+  th.textContent=r.QuestionTH||'';
+  th.classList.toggle('hidden',!r.QuestionTH);
+  setCatTag('question-cat-tag', r.Category);
+  syncJournalPrompt(r);
+  showContent('question',true);
 }
 
-function syncPromptToJournal(row) {
-  document.getElementById('journal-prompt-en').textContent = row.Question || 'No question loaded yet.';
-  const thEl = document.getElementById('journal-prompt-th');
-  thEl.textContent  = row.QuestionTH || '';
-  thEl.style.display = row.QuestionTH ? '' : 'none';
+function syncJournalPrompt(r) {
+  document.getElementById('journal-prompt-en').textContent=r.Question||'—';
+  const th=document.getElementById('journal-prompt-th');
+  th.textContent=r.QuestionTH||'';
+  th.classList.toggle('hidden',!r.QuestionTH);
 }
 
 function loadQuestionForJournal() {
-  if (!state.questionRows.length) { toast('Load a CSV in Settings first.', 'info'); return; }
-  loadQuestion();
-  toast('New prompt loaded.', 'info');
+  if(!state.questionRows.length){toast('Load a CSV in Settings first.','info');return;}
+  loadQuestion(); toast('New prompt loaded.','info');
 }
 
-// ── WORD COUNT ─────────────────────────────────────────────────────
+// ── WORD COUNT / RETRO RING ────────────────────────────────────
 function updateWordCount() {
-  const t = document.getElementById('journal-textarea').value.trim();
-  const w = t ? t.split(/\s+/).length : 0;
-  document.getElementById('word-count').textContent = 'Words: ' + w;
+  const t=document.getElementById('journal-textarea').value.trim();
+  document.getElementById('word-count').textContent='Words: '+(t?t.split(/\s+/).length:0);
 }
-
-// ── RETRO RING ─────────────────────────────────────────────────────
 function updateRetroRing() {
-  const ids   = ['retro-well','retro-not','retro-learn'];
-  const chars = ids.reduce((s, id) => s + document.getElementById(id).value.trim().length, 0);
-  const maxChars = 600; // ~200 per field
-  const pct  = Math.min(100, Math.round((chars / maxChars) * 100));
-  const circ = 314;
-  document.getElementById('retro-ring').style.strokeDashoffset = circ - (pct / 100) * circ;
-  document.getElementById('retro-pct').textContent = pct + '%';
+  const chars=['retro-well','retro-not','retro-learn']
+    .reduce((s,id)=>s+document.getElementById(id).value.trim().length,0);
+  const pct=Math.min(100,Math.round((chars/600)*100));
+  document.getElementById('retro-ring').style.strokeDashoffset=314-(pct/100)*314;
+  document.getElementById('retro-pct').textContent=pct+'%';
 }
 
-// ── PROGRESS BARS ─────────────────────────────────────────────────
+// ── PROGRESS BARS ─────────────────────────────────────────────
 function renderProgressBars() {
-  const key   = 'iw_week_' + getWeekKey();
-  const count = parseInt(localStorage.getItem(key) || '0');
-  const heights = [32,40,28,48,36,28,24];
-  const bars  = document.getElementById('progress-bars');
-  bars.innerHTML = '';
-  for (let i = 0; i < 7; i++) {
-    const d   = document.createElement('div');
-    const h   = heights[i];
-    const active = i < count;
-    d.className = 'w-8 rounded-full transition-all duration-500 ' + (active ? 'bg-primary' : 'bg-surface-container-highest');
-    d.style.height = h + 'px';
-    d.style.opacity = active ? '1' : '0.35';
-    bars.appendChild(d);
+  const key='iw_week_'+getWeekKey(), count=parseInt(localStorage.getItem(key)||'0');
+  const heights=[32,40,28,48,36,28,24];
+  const el=document.getElementById('progress-bars');
+  el.innerHTML='';
+  for(let i=0;i<7;i++){
+    const d=document.createElement('div');
+    d.className='w-8 rounded-full transition-all duration-500 '+(i<count?'bg-primary':'bg-surface-container-highest');
+    d.style.height=heights[i]+'px'; d.style.opacity=i<count?'1':'0.35';
+    el.appendChild(d);
   }
-  document.getElementById('progress-label').textContent =
-    count > 0 ? `${count} reflection${count>1?'s':''} this week. Keep going!`
-               : 'Start your first entry today.';
+  document.getElementById('progress-label').textContent=count>0
+    ?`${count} reflection${count>1?'s':''} this week. Keep going!`
+    :'Start your first entry today.';
 }
-
-function getWeekKey() {
-  const now = new Date();
-  const jan1 = new Date(now.getFullYear(), 0, 1);
-  const week = Math.ceil(((now - jan1) / 86400000 + jan1.getDay() + 1) / 7);
-  return now.getFullYear() + '-W' + week;
+function getWeekKey(){
+  const n=new Date(),j=new Date(n.getFullYear(),0,1);
+  return n.getFullYear()+'-W'+Math.ceil(((n-j)/86400000+j.getDay()+1)/7);
 }
-
-function bumpWeekCount() {
-  const key = 'iw_week_' + getWeekKey();
-  const n   = parseInt(localStorage.getItem(key) || '0') + 1;
-  localStorage.setItem(key, Math.min(n, 7));
+function bumpWeekCount(){
+  const k='iw_week_'+getWeekKey();
+  localStorage.setItem(k,Math.min(parseInt(localStorage.getItem(k)||'0')+1,7));
   renderProgressBars();
 }
 
-// ── NAVIGATION ────────────────────────────────────────────────────
-const PAGES  = ['spark','journal','retro','logs','settings'];
-function showPage(name) {
-  PAGES.forEach(p => {
-    document.getElementById('page-' + p).classList.toggle('active', p === name);
-    const navBtn = document.getElementById('nav-' + p);
-    if (navBtn) {
-      navBtn.classList.toggle('active', p === name);
-      const icon = navBtn.querySelector('.material-symbols-outlined');
-      if (icon) icon.style.fontVariationSettings = p === name
-        ? "'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24"
-        : "'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24";
-    }
-  });
-  // FAB only on spark page
-  document.getElementById('fab-btn').style.display = name === 'spark' ? 'flex' : 'none';
-  if (name === 'logs')     loadLogs();
-  if (name === 'settings') fillSettingsUI();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+// ── THE MIRROR — fetch last 3 logs for Spark page ─────────────
+async function loadMirror() {
+  const c=cfg();
+  const loading=document.getElementById('mirror-loading');
+  const list   =document.getElementById('mirror-list');
 
-// ── SAVE JOURNAL ──────────────────────────────────────────────────
-async function saveJournal() {
-  const text = document.getElementById('journal-textarea').value.trim();
-  if (!text) { toast('Write something first.', 'error'); return; }
-
-  const c = cfg();
-  if (!c.scriptUrl) { toast('Add your Apps Script URL in Settings.', 'error'); return; }
-
-  const question = state.currentQuestion ? state.currentQuestion.Question : '';
-  const payload  = {
-    action:    'addLog',
-    key:       c.scriptKey,
-    timestamp: new Date().toISOString(),
-    question:  question,
-    response:  text
-  };
-
-  const btn = document.getElementById('save-btn');
-  btn.disabled = true;
-  toast('Saving…');
-  try {
-    const res = await fetch(c.scriptUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    const data = await res.json();
-    if (data.success) {
-      toast('Saved to Logs tab ✓', 'success');
-      document.getElementById('journal-textarea').value = '';
-      document.getElementById('word-count').textContent = 'Words: 0';
-      bumpWeekCount();
-    } else {
-      throw new Error(data.error || 'unknown');
-    }
-  } catch(e) {
-    toast('Save failed — check your Script URL.', 'error');
-  } finally {
-    btn.disabled = false;
-  }
-}
-
-// ── SAVE RETRO ────────────────────────────────────────────────────
-async function saveRetro() {
-  const w = document.getElementById('retro-well').value.trim();
-  const n = document.getElementById('retro-not').value.trim();
-  const l = document.getElementById('retro-learn').value.trim();
-  if (!w && !n && !l) { toast('Fill in at least one field.', 'error'); return; }
-
-  const c = cfg();
-  if (!c.scriptUrl) { toast('Add your Apps Script URL in Settings.', 'error'); return; }
-
-  const combined = [
-    w ? 'WENT WELL:\n' + w : '',
-    n ? "DIDN'T GO WELL:\n" + n : '',
-    l ? 'LEARNED:\n' + l : ''
-  ].filter(Boolean).join('\n\n');
-
-  toast('Sealing your reflection…');
-  try {
-    const res = await fetch(c.scriptUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action: 'addLog', key: c.scriptKey,
-        timestamp: new Date().toISOString(),
-        question: 'Quarterly Retro',
-        response: combined
-      })
-    });
-    const data = await res.json();
-    if (data.success) {
-      toast('Retro sealed ✓ Great reflection!', 'success');
-      ['retro-well','retro-not','retro-learn'].forEach(id => { document.getElementById(id).value = ''; });
-      updateRetroRing();
-      bumpWeekCount();
-    } else throw new Error(data.error);
-  } catch(e) {
-    toast('Save failed — check your Script URL.', 'error');
-  }
-}
-
-// ── LOAD LOGS ────────────────────────────────────────────────────
-async function loadLogs() {
-  const c = cfg();
-  const listEl  = document.getElementById('logs-list');
-  const emptyEl = document.getElementById('logs-empty');
   if (!c.scriptUrl) {
-    emptyEl.innerHTML = '<span class="material-symbols-outlined text-[2.5rem] opacity-30">settings</span><span>Add your Apps Script URL in Settings to view logs.</span>';
-    emptyEl.classList.remove('hidden');
-    listEl.classList.add('hidden');
-    return;
+    loading.innerHTML='<span class="material-symbols-outlined opacity-25" style="font-size:1.8rem;">lock</span><span class="text-[12px]">Connect Apps Script in Settings to see your recent reflections.</span>';
+    loading.classList.remove('hidden'); list.classList.add('hidden'); return;
   }
-
-  emptyEl.innerHTML = '<span class="material-symbols-outlined text-[2rem] opacity-30 animate-spin">autorenew</span><span>Loading…</span>';
-  emptyEl.classList.remove('hidden');
-  listEl.classList.add('hidden');
+  loading.innerHTML='<span class="material-symbols-outlined opacity-25 animate-spin" style="font-size:1.6rem;">autorenew</span>';
+  loading.classList.remove('hidden'); list.classList.add('hidden');
 
   try {
-    const qs  = new URLSearchParams({ action: 'getLogs', key: c.scriptKey });
-    const res = await fetch(c.scriptUrl + '?' + qs);
-    const data = await res.json();
-    const rows = (data.rows || []).filter(r => r.response);
+    const qs=new URLSearchParams({action:'getLogs',key:c.scriptKey});
+    const res=await fetch(c.scriptUrl+'?'+qs);
+    const data=await res.json();
+    const rows=(data.rows||[]).filter(r=>r.response);
+
     if (!rows.length) {
-      emptyEl.innerHTML = '<span class="material-symbols-outlined text-[2.5rem] opacity-25">auto_stories</span><span>No entries yet. Start writing!</span>';
+      loading.innerHTML='<span class="material-symbols-outlined opacity-25" style="font-size:2rem;">auto_stories</span><span class="text-[12px]">Your journey begins here.</span>';
       return;
     }
-    emptyEl.classList.add('hidden');
-    listEl.classList.remove('hidden');
-    listEl.innerHTML = [...rows].reverse().map(r => {
-      const dt = r.timestamp ? new Date(r.timestamp).toLocaleDateString('en-US',
-        { month:'short', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '';
-      const safeQ = esc(r.question || '');
-      const safeR = esc(r.response || '');
-      const isRetro = (r.question || '').includes('Retro');
-      return `<div class="log-row px-5 py-5">
-        <div class="flex items-center gap-2 mb-2 flex-wrap">
-          <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${isRetro ? 'bg-tertiary-container text-on-tertiary-container' : 'bg-primary-container text-on-primary-container'}">
-            <span class="material-symbols-outlined" style="font-size:11px;">${isRetro ? 'history_edu' : 'edit_note'}</span>
-            ${isRetro ? 'Retro' : 'Journal'}
-          </span>
-          <span class="text-[11px] text-on-surface-variant/50">${dt}</span>
+
+    const last3=[...rows].reverse().slice(0,3);
+    loading.classList.add('hidden'); list.classList.remove('hidden');
+    list.innerHTML=last3.map(r=>{
+      const dt=r.timestamp?new Date(r.timestamp).toLocaleDateString('en-US',
+        {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+      const preview=(r.response||'').slice(0,120)+(r.response.length>120?'…':'');
+      const isRetro=(r.question||'').includes('Retro');
+      return `<div class="mirror-entry">
+        <div class="flex items-center gap-2 mb-1.5">
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${isRetro?'bg-tertiary-container text-on-tertiary-container':'bg-primary-container text-on-primary-container'}">${isRetro?'Retro':'Journal'}</span>
+          <span class="text-[11px] text-on-surface-variant/45">${dt}</span>
         </div>
-        ${safeQ && !isRetro ? `<p class="text-[12px] font-semibold text-primary mb-1.5 italic leading-snug">${safeQ}</p>` : ''}
-        <p class="text-[13px] text-on-surface-variant leading-relaxed line-clamp-4">${safeR}</p>
+        ${r.question&&!isRetro?`<p class="text-[11px] text-primary font-semibold italic mb-1 leading-snug">${esc(r.question)}</p>`:''}
+        <p class="text-[13px] text-on-surface-variant leading-relaxed">${esc(preview)}</p>
       </div>`;
     }).join('');
   } catch(e) {
-    emptyEl.innerHTML = '<span class="material-symbols-outlined text-[2rem] opacity-30">error</span><span>Could not load. Check Script URL in Settings.</span>';
-    emptyEl.classList.remove('hidden');
+    loading.innerHTML='<span class="material-symbols-outlined opacity-25" style="font-size:1.6rem;">error</span><span class="text-[12px]">Could not load recent entries.</span>';
+    loading.classList.remove('hidden');
   }
 }
 
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+// ── NAVIGATION ────────────────────────────────────────────────
+const PAGES=['spark','journal','retro','logs','settings'];
+function showPage(name) {
+  PAGES.forEach(p=>{
+    document.getElementById('page-'+p).classList.toggle('active',p===name);
+    const b=document.getElementById('nav-'+p); if(!b)return;
+    b.classList.toggle('active',p===name);
+    const ic=b.querySelector('.material-symbols-outlined');
+    if(ic) ic.style.fontVariationSettings=p===name
+      ?"'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24"
+      :"'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24";
+  });
+  document.getElementById('fab-btn').style.display=name==='spark'?'flex':'none';
+  if(name==='logs')     loadLogs();
+  if(name==='settings') fillSettingsUI();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ── SETTINGS ─────────────────────────────────────────────────────
+// ── SAVE JOURNAL → Logs tab ────────────────────────────────────
+async function saveJournal() {
+  const text=document.getElementById('journal-textarea').value.trim();
+  if(!text){toast('Write something first.','error');return;}
+  const c=cfg();
+  if(!c.scriptUrl){toast('Add your Apps Script URL in Settings first.','error');return;}
+
+  setSavingState(true);
+  try {
+    const res=await fetch(c.scriptUrl,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        action:'addLog',key:c.scriptKey,
+        timestamp:new Date().toISOString(),
+        question:state.currentQuestion?.Question||'',
+        response:text
+      })
+    });
+    const data=await res.json();
+    if(data.success){
+      document.getElementById('journal-textarea').value='';
+      document.getElementById('word-count').textContent='Words: 0';
+      bumpWeekCount();
+      loadMirror(); // refresh mirror after saving
+      showSuccess(
+        `Great job, ${APP_USER}! 🌿`,
+        'Your thought is safe in your Logs tab.\nKeep climbing — one reflection at a time.'
+      );
+    } else throw new Error(data.error||'unknown');
+  } catch(e){ toast('Save failed: '+e.message,'error'); }
+  finally { setSavingState(false); }
+}
+
+// ── SAVE RETRO → Retro tab ─────────────────────────────────────
+async function saveRetro() {
+  const w=document.getElementById('retro-well').value.trim();
+  const n=document.getElementById('retro-not').value.trim();
+  const l=document.getElementById('retro-learn').value.trim();
+  if(!w&&!n&&!l){toast('Fill in at least one field.','error');return;}
+  const c=cfg();
+  if(!c.scriptUrl){toast('Add your Apps Script URL in Settings first.','error');return;}
+
+  setRetroSavingState(true);
+  try {
+    const res=await fetch(c.scriptUrl,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        action:'addRetro',key:c.scriptKey,
+        timestamp:new Date().toISOString(),
+        wentWell:w,didntGoWell:n,learned:l
+      })
+    });
+    const data=await res.json();
+    if(data.success){
+      ['retro-well','retro-not','retro-learn'].forEach(id=>{document.getElementById(id).value='';});
+      updateRetroRing(); bumpWeekCount();
+      showSuccess(
+        `Reflection sealed, ${APP_USER}! ✨`,
+        'Your Quarterly Retro is safe in the Retro tab.\nWisdom compounds — well done.'
+      );
+    } else throw new Error(data.error||'unknown');
+  } catch(e){ toast('Save failed: '+e.message,'error'); }
+  finally { setRetroSavingState(false); }
+}
+
+// ── LOAD FULL LOGS PAGE ────────────────────────────────────────
+async function loadLogs() {
+  const c=cfg(), listEl=document.getElementById('logs-list'), mptyEl=document.getElementById('logs-empty');
+  if(!c.scriptUrl){
+    mptyEl.innerHTML='<span class="material-symbols-outlined text-[2.5rem] opacity-30">settings</span><span>Add your Apps Script URL in Settings.</span>';
+    mptyEl.classList.remove('hidden'); listEl.classList.add('hidden'); return;
+  }
+  mptyEl.innerHTML='<span class="material-symbols-outlined text-[2rem] opacity-30" style="animation:spin 1s linear infinite">autorenew</span><span>Loading…</span>';
+  mptyEl.classList.remove('hidden'); listEl.classList.add('hidden');
+  try {
+    const res=await fetch(c.scriptUrl+'?'+new URLSearchParams({action:'getLogs',key:c.scriptKey}));
+    const data=await res.json();
+    const rows=(data.rows||[]).filter(r=>r.response);
+    if(!rows.length){
+      mptyEl.innerHTML='<span class="material-symbols-outlined text-[2.5rem] opacity-25">auto_stories</span><span>Your journey begins here.</span>';
+      return;
+    }
+    mptyEl.classList.add('hidden'); listEl.classList.remove('hidden');
+    listEl.innerHTML=[...rows].reverse().map(r=>{
+      const dt=r.timestamp?new Date(r.timestamp).toLocaleDateString('en-US',
+        {month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+      const isRetro=(r.question||'').includes('Retro');
+      return `<div class="log-row px-5 py-4" style="border-bottom:1px solid rgba(236,238,238,.8)">
+        <div class="flex items-center gap-2 mb-2 flex-wrap">
+          <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${isRetro?'bg-tertiary-container text-on-tertiary-container':'bg-primary-container text-on-primary-container'}">
+            <span class="material-symbols-outlined" style="font-size:11px;">${isRetro?'history_edu':'edit_note'}</span>${isRetro?'Retro':'Journal'}
+          </span>
+          <span class="text-[11px] text-on-surface-variant/50">${dt}</span>
+        </div>
+        ${r.question&&!isRetro?`<p class="text-[12px] font-semibold text-primary mb-1.5 italic leading-snug">${esc(r.question)}</p>`:''}
+        <p class="text-[13px] text-on-surface-variant leading-relaxed" style="-webkit-line-clamp:4;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden">${esc(r.response)}</p>
+      </div>`;
+    }).join('');
+  } catch(e){
+    mptyEl.innerHTML='<span class="material-symbols-outlined text-[2rem] opacity-30">error</span><span>Error: '+esc(e.message)+'</span>';
+    mptyEl.classList.remove('hidden');
+  }
+}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+
+// ── SETTINGS ─────────────────────────────────────────────────
 function fillSettingsUI() {
-  const c = cfg();
-  document.getElementById('csv-trivia').value       = c.csvTrivia;
-  document.getElementById('csv-coaching').value     = c.csvCoaching;
-  document.getElementById('script-url-input').value = c.scriptUrl;
-  document.getElementById('script-key-input').value = c.scriptKey;
+  const c=cfg();
+  document.getElementById('csv-trivia').value      =c.csvTrivia;
+  document.getElementById('csv-coaching').value    =c.csvCoaching;
+  document.getElementById('script-url-input').value=c.scriptUrl;
+  document.getElementById('script-key-input').value=c.scriptKey;
+}
+function saveCSVUrls(){
+  const t=document.getElementById('csv-trivia').value.trim();
+  const q=document.getElementById('csv-coaching').value.trim();
+  if(!t&&!q){toast('Paste at least one URL.','error');return;}
+  if(t)localStorage.setItem('iw_csv_trivia',  normaliseToCsvUrl(t));
+  if(q)localStorage.setItem('iw_csv_coaching', normaliseToCsvUrl(q));
+  fillSettingsUI();
+  toast('Saved. Loading data…','success');
+  if(t)loadAllTrivia();
+  if(q)loadAllQuestions();
+}
+function saveScriptSettings(){
+  const url=document.getElementById('script-url-input').value.trim();
+  if(!url){toast('Paste your Script URL.','error');return;}
+  localStorage.setItem('iw_url',url);
+  localStorage.setItem('iw_key',document.getElementById('script-key-input').value.trim());
+  toast('Script URL saved ✓','success');
+}
+function copyScript(){
+  navigator.clipboard.writeText(document.getElementById('script-code-display').value)
+    .then(()=>toast('Copied to clipboard ✓','success'));
 }
 
-function saveCSVUrls() {
-  const t = document.getElementById('csv-trivia').value.trim();
-  const q = document.getElementById('csv-coaching').value.trim();
-  if (!t && !q) { toast('Paste at least one CSV URL.', 'error'); return; }
-  if (t) localStorage.setItem('iw_csv_trivia', t);
-  if (q) localStorage.setItem('iw_csv_coaching', q);
-  toast('Saved. Loading data…', 'success');
-  loadAllTrivia();
-  loadAllQuestions();
-}
+// ── APPS SCRIPT TEMPLATE ─────────────────────────────────────
+document.getElementById('script-code-display').value=`// ═══════════════════════════════════════════════════
+// The Inner Ascent — Google Apps Script
+// Deploy: Execute as Me | Who has access: Anyone
+// ═══════════════════════════════════════════════════
 
-function saveScriptSettings() {
-  const url = document.getElementById('script-url-input').value.trim();
-  const key = document.getElementById('script-key-input').value.trim();
-  if (!url) { toast('Paste your Script URL.', 'error'); return; }
-  localStorage.setItem('iw_url', url);
-  localStorage.setItem('iw_key', key);
-  toast('Script settings saved ✓', 'success');
-}
-
-// ── APPS SCRIPT CODE ─────────────────────────────────────────────
-document.getElementById('script-code-display').value = `// ─── Inner Work — Google Apps Script ───────────────────────────
-// Deploy as Web App: Execute as Me, Access: Anyone
-// Logs tab columns: Timestamp | QuestionAsked | MyResponse
-
-const SECRET_KEY = ""; // optional — set a shared secret
+const SECRET_KEY = ""; // optional
 
 function doGet(e) {
   const p = e.parameter;
-  if (SECRET_KEY && p.key !== SECRET_KEY) return j({error:"Unauthorized"});
+  if (SECRET_KEY && p.key !== SECRET_KEY) return j({ error: "Unauthorized" });
   if (p.action === "getLogs") return j(getLogs());
-  return j({error:"Unknown action"});
+  return j({ error: "Unknown action: " + p.action });
 }
 
 function doPost(e) {
   const b = JSON.parse(e.postData.contents);
-  if (SECRET_KEY && b.key !== SECRET_KEY) return j({error:"Unauthorized"});
-  if (b.action === "addLog") return j(addLog(b.timestamp, b.question, b.response));
-  return j({error:"Unknown action"});
+  if (SECRET_KEY && b.key !== SECRET_KEY) return j({ error: "Unauthorized" });
+  if (b.action === "addLog")   return j(addLog(b));
+  if (b.action === "addRetro") return j(addRetro(b));
+  return j({ error: "Unknown action: " + b.action });
 }
 
 function j(data) {
@@ -996,37 +1234,46 @@ function j(data) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// Append one row to Logs tab: Timestamp, QuestionAsked, MyResponse
-function addLog(timestamp, question, response) {
-  const ss    = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName("Logs");
-  // Write header if sheet is empty
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow(["Timestamp", "QuestionAsked", "MyResponse"]);
-  }
-  sheet.appendRow([timestamp || new Date().toISOString(), question || "", response || ""]);
+// Save journal → Logs tab  [Timestamp | QuestionAsked | MyResponse]
+function addLog(b) {
+  const sheet = getOrCreateSheet("Logs",["Timestamp","QuestionAsked","MyResponse"]);
+  sheet.appendRow([b.timestamp||new Date().toISOString(), b.question||"", b.response||""]);
   return { success: true };
 }
 
-// Return all rows from Logs tab as array of objects
+// Save retro → Retro tab  [Timestamp | WentWell | DidntGoWell | Learned]
+function addRetro(b) {
+  const sheet = getOrCreateSheet("Retro",["Timestamp","WentWell","DidntGoWell","Learned"]);
+  sheet.appendRow([b.timestamp||new Date().toISOString(), b.wentWell||"", b.didntGoWell||"", b.learned||""]);
+  return { success: true };
+}
+
+// Read logs (last N rows)
 function getLogs() {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Logs");
-  const rows  = sheet.getDataRange().getValues();
-  if (rows.length < 2) return { rows: [] };
-  const header = rows[0]; // ["Timestamp","QuestionAsked","MyResponse"]
-  const data   = rows.slice(1).map(r => ({
+  if (!sheet || sheet.getLastRow() < 2) return { rows: [] };
+  return { rows: sheet.getDataRange().getValues().slice(1).map(r=>({
     timestamp: r[0] ? new Date(r[0]).toISOString() : "",
     question:  r[1] || "",
     response:  r[2] || ""
-  }));
-  return { rows: data };
+  }))};
+}
+
+function getOrCreateSheet(name, headers) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let s = ss.getSheetByName(name);
+  if (!s) { s = ss.insertSheet(name); s.appendRow(headers); }
+  else if (s.getLastRow()===0) { s.appendRow(headers); }
+  return s;
 }`;
 
-// ── INIT ──────────────────────────────────────────────────────────
+// ── INIT ──────────────────────────────────────────────────────
 initDateTime();
+checkRetroBanner();
 renderProgressBars();
 loadAllTrivia();
 loadAllQuestions();
+loadMirror();
 </script>
 </body>
 </html>
